@@ -1,0 +1,42 @@
+//logic
+
+// for first occurence , move end pointer even when it is equal to the target (first while loop)
+// for second occurence ,move start pointer even when it is equal to the target (second while loop)
+
+
+
+//code
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int s=0;
+        int e=nums.length-1;
+        int[] ans={-1,-1};
+        while(s<=e){
+            int mid=s+(e-s)/2;
+            if(nums[mid]==target){
+                ans[0]=mid;
+            }
+            if(nums[mid]<target){
+                s=mid+1;
+            }
+            else{
+                e=mid-1;
+            }
+        }
+        s=0;
+        e=nums.length-1;
+        while(s<=e){
+            int mid=s+(e-s)/2;
+            if(nums[mid]==target){
+                ans[1]=mid;
+            }
+            if(nums[mid]>target){
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+        }
+        return ans;
+    }
+}
