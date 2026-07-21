@@ -1,0 +1,49 @@
+logic 
+
+// find minimum and maximum possible ans. (find start and end)
+// start = max element in array
+// end= sum of array
+// do binary search on start and end
+// if start and end equals , then answer found
+// calculate mid . find the subarrays which not exceed the mid value
+// if the number of subarrays less than or equal to the k , then end=mid
+// else s=mid+1
+
+
+code
+
+class Solution {
+    public int splitArray(int[] nums, int k) {
+        int s=nums[0];
+        int e=0;
+        for(int num:nums){
+            s=Math.max(num,s);
+            e+=num;
+        }
+        while(s<=e){
+            if(s==e){
+                return s;
+            }
+            int mid=s+(e-s)/2;
+            int piece=1;
+            int temp=0;
+            for(int num:nums){
+                if(temp+num<=mid){
+                    temp+=num;
+                }
+                else{
+                    piece++;
+                    temp=num;
+                }
+            }
+            if(piece<=k){
+                e=mid;
+            }
+            else{
+                s=mid+1;
+            }
+
+        }
+        return s;
+    }
+}
