@@ -1,0 +1,28 @@
+// Ceil of a number - Smallest element greater than or equal to the target.
+
+// logic
+// do binary search.
+// if ans found return mid
+// in the end return start
+
+
+// code
+public static int ceil(int[] arr, int target) {
+    int start = 0, end = arr.length - 1;
+
+    if (target > arr[end]) return -1; // No ceil exists
+
+    while (start <= end) {
+        int mid = start + (end - start) / 2;
+
+        if (arr[mid] == target)
+            return mid;
+
+        if (target < arr[mid])
+            end = mid - 1;
+        else
+            start = mid + 1;
+    }
+
+    return start;
+}
