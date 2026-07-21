@@ -14,3 +14,9 @@ class Solution {
         return letters[s%letters.length];
     }
 }
+
+
+//Logic
+since we have to find the next greatest letter , so , if letter in mid less than target , move e=mid-1
+otherwise s=mid+1
+in the end , return letters[s%letters.length]. (using letters.length -> for 'z' character)
