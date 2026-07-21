@@ -1,0 +1,51 @@
+logic 
+
+
+//if middle element greater than mid+1 , them peak=mid
+// if middle element lesser than mid-1 , them peak=mid-1
+//left binary search and right binary search. (peak)
+
+
+code
+
+class Solution {
+    public int search(int[] arr, int target) {
+        int s=0;
+        int e=arr.length-1;
+        int peak=0;
+        while(s<e){
+            int mid=s+(e-s)/2;
+        if(mid<arr.length && arr[mid]>arr[mid+1]){
+            peak=mid;
+            break;
+        }
+        if(mid>0  && arr[mid]<arr[mid-1]){
+            peak=mid-1;
+            break;
+        }
+        if(arr[s]>arr[mid]){
+            e=mid-1;
+        }
+        else{
+            s=mid+1;
+         }
+        }
+        int l=search(0,peak,arr,target);
+        return l!=-1?l:search(peak+1,arr.length-1,arr,target);
+    }
+    public static int search(int s,int e,int[] nums,int target){
+         while(s<=e){
+            int mid=s+(e-s)/2;
+            if(nums[mid]==target){
+                return mid;
+            }
+            if(nums[mid]<target){
+                s=mid+1;
+            }
+            else{
+                e=mid-1;
+            }
+        }
+        return -1;
+    }
+}
