@@ -1,0 +1,71 @@
+//logic
+
+//find peak element.lc 852
+//left binary search and right binary search (order ignostic binary search)
+
+
+
+/**
+ * // This is MountainArray's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * interface MountainArray {
+ *     public int get(int index) {}
+ *     public int length() {}
+ * }
+ */
+ 
+class Solution {
+    public int findInMountainArray(int target,MountainArray mountainArr) {
+        int peak=peakIndexInMountainArray(mountainArr);
+        int left=search(0,peak,mountainArr,target,true);
+        return left!=-1?left:search(peak+1,mountainArr.length()-1,mountainArr,target,false);
+    }
+    public int search(int s,int e,MountainArray nums, int target,boolean f) {
+        if(f){
+        while(s<=e){
+            int mid=s+(e-s)/2;
+            if(nums.get(mid)==target){
+                return mid;
+            }
+            if(nums.get(mid)<target){
+                s=mid+1;
+            }
+            else{
+                e=mid-1;
+            }
+        }
+        }
+        else{
+            while(s<=e){
+            int mid=s+(e-s)/2;
+            if(nums.get(mid)==target){
+                return mid;
+            }
+            if(nums.get(mid)>target){
+                s=mid+1;
+            }
+            else{
+                e=mid-1;
+            }
+        }
+        }
+        return -1;
+    }
+    public static int peakIndexInMountainArray(MountainArray arr) {
+        int s=0;
+        int e=arr.length()-1;
+        while(s<e){
+            int mid=s+(e-s)/2;
+            if(mid!=0 && arr.get(mid)<arr.get(mid-1)){
+                e=mid-1;
+            }
+            else if(mid!=arr.length()-1 && arr.get(mid)<arr.get(mid+1)){
+                s=mid+1;
+            }
+            else{
+                return mid;
+            }
+        }
+        return e;
+    }
+}
