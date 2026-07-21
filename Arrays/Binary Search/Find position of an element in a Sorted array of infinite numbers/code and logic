@@ -1,0 +1,61 @@
+// Intution of this question:
+//   since array is always finite size. here infinite refers as the size is unknown i.e., there will be no size value
+
+// logic
+
+// initialise s=0 and e=1.
+// do binary search on this window
+// if found return mid.
+// else , increase the window size by 2 i.e., s=e+1 , e=s+((e-s)*2)+1   e.g., s=2, e=5 (now 4 elements)
+// repeat this process until you find the answer
+
+// code 
+
+public class InfiniteArraySearch {
+
+    public static void main(String[] args) {
+        int[] arr = {2, 3, 5, 7, 9, 10, 15, 18, 22, 25, 30, 35, 40, 45, 50};
+
+        int target = 22;
+
+        System.out.println(ans(arr, target)); // Output: 8
+    }
+
+    static int ans(int[] arr, int target) {
+        int start = 0;
+        int end = 1;
+
+        // Expand the search range
+        while (end < arr.length && target > arr[end]) {
+            int newStart = end + 1;
+            end = end + (end - start + 1) * 2;
+
+            if (end >= arr.length) {
+                end = arr.length - 1;
+            }
+
+            start = newStart;
+        }
+
+        return binarySearch(arr, target, start, end);
+    }
+
+    static int binarySearch(int[] arr, int target, int start, int end) {
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+
+            if (arr[mid] == target) {
+                return mid;
+            }
+
+            if (target < arr[mid]) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        return -1;
+    }
+}
