@@ -60,3 +60,13 @@ public class Main {
         }
     }
 }
+
+
+Time Complexity
+
+Best case: O(n) (already sorted)
+Average case: O(n²)
+Worst case: O(n²)
+
+Space Complexity
+O(1)
