@@ -1,0 +1,57 @@
+Q : Binary search in 2D matrix where each row and column are sorted
+
+
+Logic:
+
+r=0,c=arr.length-1
+while r<arr.length and c>=0
+move r pointer when the element less than target
+move c pointer when element greater than target
+if element equals target
+return ans
+
+
+Pseudocode :
+
+initialise r=0 and coln=arr.length-1
+while condn: r<arr.length and coln >=0 
+if arr[r][coln]==target
+return r,c
+if  arr[r][coln]<target then 
+r++
+else 
+c--
+end while
+return -1,-1
+
+Code :
+
+public class Main
+{
+	public static void main(String[] args) {
+		int[][] arr={
+		    {10,20,30,40},
+		    {15,25,35,45},
+		    {28,29,37,49},
+		    {33,34,38,50}
+		};
+		int target=37;
+		System.out.print(Arrays.toString(binarysearch(arr,target)));
+	}
+	static int[] binarysearch(int[][] arr,int target){
+	    int r=0;
+	    int c=arr.length-1;
+	    while(r<arr.length && c>=0){
+	        if(arr[r][c]==target){
+	            return new int[]{r,c};
+	        }
+	        if(arr[r][c]<target){
+	            r++;
+	        }
+	        else{
+	            c--;
+	        }
+	    }
+	    return new int[]{-1,-1};
+	}
+}
