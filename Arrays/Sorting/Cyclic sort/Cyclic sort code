@@ -1,0 +1,63 @@
+Logic
+
+Cyclic Sort is used when the array contains numbers from 1 to n with no duplicates.
+
+For each index:
+
+Find the correct index of the current element.
+If the current element is not at its correct index, swap it with the element at its correct index.
+Otherwise, move to the next index.
+Continue until all elements are in their correct positions.
+
+Example:
+
+3 5 2 1 4
+
+3 belongs at index 2
+2 5 3 1 4
+
+2 belongs at index 1
+5 2 3 1 4
+
+5 belongs at index 4
+4 2 3 1 5
+
+4 belongs at index 3
+1 2 3 4 5
+
+Code :
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {3, 5, 2, 1, 4};
+        cyclicSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    static void cyclicSort(int[] arr) {
+        int i = 0;
+
+        while (i < arr.length) {
+            int correct = arr[i] - 1;
+
+            if (arr[i] != arr[correct]) {
+                int temp = arr[i];
+                arr[i] = arr[correct];
+                arr[correct] = temp;
+            } else {
+                i++;
+            }
+        }
+    }
+}
+
+Time Complexity 
+
+Best case: O(n)
+Average case: O(n)
+Worst case: O(n)
+
+Space Complexity
+O(1)
