@@ -1,0 +1,59 @@
+Logic :
+
+Find the length of the array and store it in len.
+Handle the special case when the array has only one element.
+Use cyclic sort logic to place each positive number at its correct index.
+Traverse the array using index i starting from 1.
+Store the current element in temp to find its correct position.
+Check if the current element is already in the correct position (arr[i - 1] == i).
+Ignore elements that are less than 1 because only positive numbers are considered.
+Ignore elements greater than len because they cannot be the first missing positive number.
+Ignore duplicate values to avoid infinite swapping.
+If the element is valid and not in its correct position, swap it with the element at its correct index (arr[temp - 1]).
+Continue the process until all possible positive numbers are placed at their correct indices.
+Traverse the array again from index 1.
+Check each position to see if the value matches its expected index.
+If a mismatch is found, return that index because it is the smallest missing positive number.
+If all positions contain the correct values, return len + 1 because the next number is missing.
+
+Code :
+
+class Solution {
+    public int firstMissingPositive(int[] arr) {
+        int len=arr.length;
+        int i=1;
+        if(arr.length==1){
+            if(arr[i-1]==1){
+            return arr[i-1]+1;
+            }
+            else{
+                return 1;
+            }
+        }
+        
+        for(i=1;i<=len;){
+            int temp=arr[i-1];
+            if(arr[i-1]==i || arr[i-1]<1 || arr[i-1]>len || arr[i-1]==arr[temp-1]){
+                i++;
+            }
+            else{
+                
+                arr[i-1]=arr[temp-1];
+                arr[temp-1]=temp;
+            }
+        }
+            for(i=1;i<=len;){
+                if(arr[i-1]==i){
+                    i++;
+                }
+                else{
+                    break;
+                }
+               
+            }
+        
+
+         return i;
+        
+    }
+}
