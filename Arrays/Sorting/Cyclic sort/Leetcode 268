@@ -1,0 +1,73 @@
+Logic :
+
+Solution - 1:
+
+Find the length of the array and store it in n.
+Calculate the expected sum of all numbers from 0 to n using the formula n × (n + 1) / 2.
+Initialize a variable sum to store the sum of the array elements.
+Traverse the array and add each element to sum.
+Compare the expected sum with the actual array sum.
+The difference between the expected sum and the actual sum is the missing number.
+Return the missing number as the final answer.
+
+Solution - 2:
+
+Find the length of the array and initialize the index i to 0.
+Traverse the array using a while loop.
+Check if the current element is not in its correct index and is within the valid range (0 to len - 1).
+If the element is not in its correct position, swap it with the element at its correct index.
+If the element is already in the correct position or equals len, move to the next index.
+Continue this process until all possible elements are placed at their correct indices.
+Traverse the array again from the beginning.
+Compare each element with its index.
+If an element does not match its index, return that index as the missing number.
+If all indices match their elements, return len because the missing number is n itself.
+
+
+Code :
+
+Solution - 1 :
+
+class Solution {
+    public int missingNumber(int[] arr) {
+        int n=arr.length;
+        int sum=0;
+        int sumnat=n*(n+1)/2;
+        for(int num:arr){
+            sum+=num;
+     }
+     return sumnat-sum;
+
+
+
+
+Solution - 2 :
+
+class Solution {
+    public int missingNumber(int[] arr) {
+        int len=arr.length;
+        int i=0;
+       
+        while( i<len){
+            if(arr[i]!=i && arr[i]<len){
+                int temp = arr[i];
+                arr[i] = arr[temp];
+                arr[temp] = temp;
+            }
+            else {
+                 i++;
+            }
+       }
+       i=0;
+       for(int element:arr) {
+        if(element==i){
+            i++;
+        }
+        else{
+           break;
+        }
+
+       } 
+       return i;
+    }
+}
