@@ -1,5 +1,5 @@
 static String check_odd_or_even(int num){
-	    if (num&1==0){
+	    if ((num&1)==0){
 	        return "Even";
 	    }
 	    return "Odd";
