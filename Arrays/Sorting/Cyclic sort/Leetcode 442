@@ -1,0 +1,41 @@
+Logic :
+
+Create an empty list list to store the duplicate numbers.
+Initialize i as 1 and use a while loop to place elements in their correct positions.
+Check if the current element is not at its correct index (arr[i - 1] != i).
+Check whether the correct position of the current element already contains the same value (arr[i - 1] != arr[arr[i - 1] - 1]).
+If both conditions are true, swap the current element with the element at its correct position.
+If the element is already in the correct position or a duplicate value is found, move to the next index.
+Continue this process until all possible elements are placed at their correct indices.
+Traverse the array again and compare each element with its expected value (index).
+If an element does not match its expected value, it means that number appears more than once.
+Add that duplicate number to the list.
+Return the list containing all duplicate numbers.
+
+Leetcode 442 :
+
+class Solution {
+    public List<Integer> findDuplicates(int[] arr) {
+          ArrayList<Integer> list = new ArrayList<>();
+        int i=1;
+        while(i<=arr.length){
+            if(arr[i-1]!=i && arr[i-1]!=arr[arr[i-1]-1]){
+                int temp=arr[i-1];
+                arr[i-1]=arr[temp-1];
+                arr[temp-1]=temp;
+            }
+           else{
+                i+=1;
+            }
+
+        }
+       for(int index=1;index<=arr.length;index++){
+            if(arr[index-1]!=index){
+                list.add(arr[index-1]);
+            }
+        }
+      
+       
+       return list;
+    }
+}
