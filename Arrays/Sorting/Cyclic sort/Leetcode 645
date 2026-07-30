@@ -1,0 +1,59 @@
+Logic :
+
+Initialize i as 1 and find the length of the array.
+Traverse the array using a while loop to place each number at its correct index.
+Check if the current element is already at its correct position (arr[i - 1] == i).
+If the element is not in its correct position, find its correct index using arr[i - 1] - 1.
+Check whether the correct position already contains the same value.
+If the same value is already present, it means that number is duplicated, so move to the next index.
+Otherwise, swap the current element with the element at its correct position.
+Repeat this process until all numbers are placed in their correct positions.
+Traverse the array again and compare each element with its expected value (index + 1).
+If an element does not match its expected position, that element is the duplicate number and the missing number is the index value (j + 1).
+Return an array containing the duplicate number and the missing number.
+If no mismatch is found, return {-1, -1}.
+
+Code :
+
+class Solution {
+    public int[] findErrorNums(int[] arr) {
+        int i=1;
+        int len=arr.length;
+        
+        while(i<=len){
+
+             if(arr[i-1]!=i){
+                int temp = arr[i-1];
+               if(arr[i-1] == arr[temp-1]){
+                i++;
+               }
+               else{
+                   arr[i-1] = arr[temp-1];
+                   arr[temp-1] = temp;
+               }
+
+             }
+       
+            else {
+                 i++;
+            }
+        }
+            
+            for(int j=0;j<arr.length;){
+                if(arr[j]==j+1){
+                    
+                    j++;
+                    
+              }
+               
+                    else{
+                         return new int[] {arr[j],j+1};
+                    }
+
+
+            }
+            return new int[] {-1,-1};         
+ 
+        
+    }
+}
