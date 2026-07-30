@@ -1,0 +1,32 @@
+Logic : 
+
+Traverse the array using cyclic sort.
+Check if the current element is in its correct position (nums[i] == i + 1).
+If the element is not in its correct position and its correct position does not already contain the same value, swap it with the element at its correct position.
+If the element is already in its correct position or a duplicate is found at its correct position, move to the next index.
+Repeat this process until all possible elements are placed in their correct positions.
+Traverse the array once again from the beginning.
+Compare each element with its expected value (i + 1).
+If an element does not match its expected value, return that element because it is the duplicate number.
+If no mismatch is found, return -1. (It will now execute , according to the testcase provided by the leetcode)
+
+Code :
+
+for(int i=0;i<nums.length;){
+            if(nums[i]!=i+1 && nums[i]!=nums[nums[i]-1]){
+                int temp=nums[i];
+                nums[i]=nums[temp-1];
+                nums[temp-1]=temp;
+            }
+            else{
+                i++;
+            }
+        }
+        int i=1;
+        for(int num:nums){
+            if(i++!=num){
+                return num;
+            }
+        }
+        return -1;
+    }
