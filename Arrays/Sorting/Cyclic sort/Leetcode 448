@@ -1,0 +1,87 @@
+Logic :
+
+Solution - 1 :
+
+Create an empty list ans to store the missing numbers.
+Traverse each element in the array.
+Find the index corresponding to the current number using Math.abs(num) - 1.
+Check if the value at that index is positive.
+If it is positive, mark it as visited by multiplying it by -1.
+After marking all visited numbers, traverse the array again.
+Check each index to see if its value is still positive.
+A positive value indicates that its corresponding number was never visited.
+Add i + 1 to the answer list because the array uses 0-based indexing while the numbers are from 1 to n.
+Return the list containing all the missing numbers.
+
+Solution - 2 :
+
+Find the length of the array and initialize the index i to 1.
+Traverse the array using a while loop.
+Check if the current element is already in its correct position (arr[i - 1] == i).
+If the element is not in its correct position, find its correct index using arr[i - 1] - 1.
+Check whether the current element is already present at its correct position.
+If the correct position already contains the same value, increment i to avoid an infinite loop caused by duplicates.
+Otherwise, swap the current element with the element at its correct position.
+Repeat this process until all possible elements are placed in their correct positions.
+Create an empty list to store the missing numbers.
+Traverse the array from index 1 to n.
+Compare each element with its expected value (j).
+If the element does not match its expected value, add j to the list because it is missing from the array.
+Continue checking until the end of the array.
+Return the list containing all the missing numbers.
+
+Code :
+
+Solution - 1 :
+
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> ans=new ArrayList<>();
+        for(int num:nums){
+            if(nums[Math.abs(num)-1]>0)
+            nums[Math.abs(num)-1]*=-1;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]>0){
+                
+                ans.add(i+1);
+            }
+        }
+        return ans;
+    }
+}
+
+Solution - 2 :
+
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] arr) {
+        int i=1;
+        int len=arr.length;
+        while(i<=len){
+             if(arr[i-1]!=i){
+                int temp = arr[i-1];
+                if(arr[i-1]==arr[temp-1]){
+                    i++;
+            }
+            else{
+                 arr[i-1] = arr[temp-1];
+                arr[temp-1] = temp;
+            }
+             }
+            else {
+                 i++;
+            }
+        }
+            ArrayList<Integer> list=new ArrayList<Integer>();
+            for(int j=1;j<=arr.length;){
+                if(arr[j-1]==j){
+                    j++;
+              }
+                else{
+                    list.add(j);
+                    j++;
+                }
+            }  
+        return list;
+    }
+}
