@@ -1,0 +1,4 @@
+static int Set_Ith_Bit_of_a_Number(int num, int i){
+    num = num | (1 << (i - 1));
+    return num;
+}
