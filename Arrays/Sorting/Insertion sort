@@ -1,0 +1,41 @@
+Logic :
+
+  Insert the element in that correct position
+  keep sorting each subarray i.e., [1] [1,2] [1,2,3] ... [1,...,n]
+  for each pass , the element inserted in that correct position
+  Intuition : whenever the element is less than its previous element , break the loop , which indicates that the element inserted in that correct position. Otherwise , swap the element
+
+Example :
+
+  arr=[5,3,4,1,2]
+  i -> 0 : 5 3 4 1 2
+  i -> 1 : 3 5 4 1 2
+  i -> 2 : 3 4 5 1 2
+  i -> 3 : 1 3 4 5 2
+  i -> 4 : 1 2 3 4 5
+
+Code :
+
+  static void insertionsort(int[] arr){
+	    if(arr.length==1){
+	        return;
+	    }
+	    for(int i=0;i<arr.length-1;i++){
+	        for(int j=i+1;j>0;j--){
+	            if(arr[j]>arr[j-1]){
+	                break;
+	            }
+	            int temp=arr[j];
+	            arr[j]=arr[j-1];
+	            arr[j-1]=temp;
+	        }
+	    }
+	}
+
+
+Complexity
+
+Best case (already sorted): O(n) (because of the break)
+Average case: O(n²)
+Worst case (reverse sorted): O(n²)
+Space complexity: O(1)
