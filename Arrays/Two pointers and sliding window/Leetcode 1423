@@ -1,0 +1,23 @@
+Logic :
+
+Find sum of left window which is size of k
+Add the right window one by one which if of size length of array - k to length of array and subtract the value of left window simultaneously one by one
+
+
+Code :
+class Solution {
+    public int maxScore(int[] cardPoints, int k) {
+        int maxans=0;
+        for(int i=0;i<k;i++){
+            maxans+=cardPoints[i];
+        }
+        int j=k-1;
+        int temp=maxans;
+        for(int i=cardPoints.length-1;i>cardPoints.length-1-k;i--){
+            temp-=cardPoints[j--];
+            temp+=cardPoints[i];
+            maxans=Math.max(maxans,temp);
+        }
+        return maxans;
+    }
+}
