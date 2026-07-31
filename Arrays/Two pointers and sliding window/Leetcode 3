@@ -1,0 +1,67 @@
+Logic :
+
+Solution -1 
+
+//Using HashMap
+
+initialise map , maxlength , right pointer
+traverse string s each character
+if the character already is there in map and right pointer less than the index position of the character (map.get(ch))
+then move right pointer to the next index of the character i.e., map.get(ch)+1
+put each character along with its index in map
+calculate maxlen left - right + 1  i.e., (i-r+1) 
+
+Solution -2
+
+//Using Frequency array
+
+Same as like logic of solution 1
+Instead of creating hashmap , create an array , store the value of character by changing it into integer data type which is its index value , and store its corresponding index value in the string s in the array
+Intuition :
+int ch=(int)(s.charAt(i))
+map.containsKey(ch) => map[ch]>-1
+map.put(ch,i) => map[ch]=i
+
+
+Code :
+
+Solution -1
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashMap<Character,Integer> map=new HashMap<>();
+        int maxlen=0;
+        int r=0;
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(map.containsKey(ch) && r<=map.get(ch)){
+                r=map.get(ch)+1;
+            }
+            map.put(ch,i);
+            maxlen=Math.max(maxlen,i-r+1);
+        }
+        return maxlen;
+    }
+}
+
+Solution -2
+
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int[] map=new int[256];
+        int maxlen=0;
+        int r=0;
+        Arrays.fill(map,-1);
+        for(int i=0;i<s.length();i++){
+            int ch=(int)(s.charAt(i));
+            if(map[ch]>-1 && r<=map[ch]){
+                r=map[ch]+1;
+            }
+            map[ch]=i;
+            maxlen=Math.max(maxlen,i-r+1);
+        }
+        return maxlen;
+    }
+}
+
