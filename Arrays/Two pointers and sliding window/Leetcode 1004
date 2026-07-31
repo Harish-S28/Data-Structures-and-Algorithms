@@ -1,0 +1,34 @@
+Logic :
+
+Initialise left maxlen and c
+iterate each number in for loop using right pointer
+if the number (nums[right]) equal to 0
+then increment c
+if c greater than k 
+move the left pointer until reduce c less than k , i.e., until you find another zero by the left pointer , because the condition states that the subarray contains at most k zeroes
+calculate max length (right-left+1)
+
+Code :
+
+
+class Solution {
+    public int longestOnes(int[] nums, int k) {
+        int left=0;
+        int maxlen=0;
+        int c=0;
+        for(int right=0;right<nums.length;right++){
+            if(nums[right]==0){
+                c++;
+            }
+            if(c>k){
+                while(c>k){
+                    if(nums[left++]==0){
+                        c--;
+                    }
+                }
+            }
+            maxlen=Math.max(maxlen,right-left+1);
+        }
+        return maxlen;
+    }
+}
