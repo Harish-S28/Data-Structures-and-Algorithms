@@ -1,0 +1,25 @@
+Logic :
+
+compare least significant bit of 2 numbers , if it not equal , then increment answer by 1
+after comparison , 
+do right shift operation one time on both the numbers 
+
+repeat this until the maximum number become zero
+
+
+Code :
+
+class Solution {
+    public int hammingDistance(int x, int y) {
+        int max=Math.max(x,y);
+        int min=Math.min(x,y);
+        int ans=0;
+        while(max!=0){
+            if((max&1)!=(min&1))
+            ans++;
+            max=max>>1;
+            min=min>>1; 
+        }
+        return ans;
+    }
+}
