@@ -1,0 +1,34 @@
+Logic :
+
+create a arr which is of size 3 for storing the recently visited index of each character
+iterate each character in for loop
+store the character to its corresponding index (recently visited) in array
+check whether the substring contains all the character , i.e., check whether all the 3 values in array are greater than -1
+if yes , then
+add the ans with the least visited character i.e., the minimum value of the three
+finally , return the answer
+
+
+Intuition :
+
+find the minimum substring which has all three characters 
+and subtract it with the least visited character to get all the possible substrings
+
+
+Code :
+
+class Solution {
+    public int numberOfSubstrings(String s) {
+        int[] arr=new int[3];
+        int ans=0;
+        Arrays.fill(arr,-1);
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            arr[ch-97]=i;
+            if(arr[0]!=-1 && arr[1]!=-1 && arr[2]!=-1){
+                ans=ans+(1+Math.min(arr[0],Math.min(arr[1],arr[2])));
+            }
+        }
+        return ans;
+    }
+}
