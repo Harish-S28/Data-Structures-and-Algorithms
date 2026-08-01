@@ -1,0 +1,76 @@
+Logic :
+
+Solution -1:
+
+Initialise array for frequency of characters
+initialise maxfrequency and maxlength
+iterate each character in for loop
+Add every character's frequency (arr[ch-'A']++)
+calculate maxfrequency by comparing with arr[ch-'A']
+to calculate the characters need to be change is :
+      change => length of characters still now processed (right-left+1) - maximumfrequency of a single character
+while the change is greater than k 
+derement the character which processed by the left pointer
+and calculate maximum frequency each time by comparing all the 26 values in the frequency array
+and finally calculate maximumlength by comparing the length of the string till now processed
+return maxlen
+
+Time complexity :
+O(26 * (N+N))   =>  O(N)
+
+Solution -2
+
+Same as like as solution -1
+only change is remove the for loop for calculating maxfreq
+it is not necessary to calculate again and again maximum frequency  because , In this loop , the maximum frequency will be definitely get reduced , and this change will definitely not reflect in calculating the maximum length
+so just remove the for loop
+
+Time complexity :
+O(N)
+Code :
+
+Solution -1
+
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int[] arr=new int[26];
+        int maxfreq=0;  
+        int maxlen=0;
+      int left=0;
+        for(int right=0;right<s.length();right++){
+            char ch=s.charAt(right);
+            arr[ch-'A']++;
+            maxfreq=Math.max(maxfreq,arr[ch-'A']);
+            while((right-left+1)-maxfreq>k){
+                arr[s.charAt(left++)-'A']--;
+                for(int num:arr){
+                    maxfreq=Math.max(num,maxfreq);
+                }
+            }
+            maxlen=Math.max(maxlen,right-left+1);
+        }
+        return maxlen;
+    }
+}
+
+
+Solution -2:
+
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int[] arr=new int[26];
+        int maxfreq=0;
+        int maxlen=0;
+        int left=0;
+        for(int right=0;right<s.length();right++){
+            char ch=s.charAt(right);
+            arr[ch-'A']++;
+            maxfreq=Math.max(maxfreq,arr[ch-'A']);
+            while((right-left+1)-maxfreq>k){
+                arr[s.charAt(left++)-'A']--;
+            }
+            maxlen=Math.max(maxlen,right-left+1);
+        }
+        return maxlen;
+    }
+}
