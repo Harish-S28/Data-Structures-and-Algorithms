@@ -34,6 +34,8 @@ Same as like solution -2
 just replace if condition with the inner while loop
 it is not necessary to iterate again left pointer and calculate maximum length because this will not make any changes in maximum length , since we found the maximum length before 
 
+Time complexity :
+O(N)
 
 Code :
 
