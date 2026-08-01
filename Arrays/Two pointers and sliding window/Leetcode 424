@@ -26,7 +26,15 @@ it is not necessary to calculate again and again maximum frequency  because , In
 so just remove the for loop
 
 Time complexity :
-O(N)
+O(N+N)  => O(N)
+
+
+Solution -3
+Same as like solution -2
+just replace if condition with the inner while loop
+it is not necessary to iterate again left pointer and calculate maximum length because this will not make any changes in maximum length , since we found the maximum length before 
+
+
 Code :
 
 Solution -1
@@ -67,6 +75,28 @@ class Solution {
             arr[ch-'A']++;
             maxfreq=Math.max(maxfreq,arr[ch-'A']);
             while((right-left+1)-maxfreq>k){
+                arr[s.charAt(left++)-'A']--;
+            }
+            maxlen=Math.max(maxlen,right-left+1);
+        }
+        return maxlen;
+    }
+}
+
+
+Solution -3:
+
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int[] arr=new int[26];
+        int maxfreq=0;
+        int maxlen=0;
+        int left=0;
+        for(int right=0;right<s.length();right++){
+            char ch=s.charAt(right);
+            arr[ch-'A']++;
+            maxfreq=Math.max(maxfreq,arr[ch-'A']);
+            if((right-left+1)-maxfreq>k){
                 arr[s.charAt(left++)-'A']--;
             }
             maxlen=Math.max(maxlen,right-left+1);
