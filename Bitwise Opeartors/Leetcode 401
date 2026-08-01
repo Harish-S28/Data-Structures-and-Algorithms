@@ -1,0 +1,44 @@
+Logic :
+
+Try out all possibilities of time period for a day
+for hour 0-11  (12)
+for minutes 0-59  (60)
+12*60 => 720
+
+2 for loop
+one is for minutes 
+inner loop for hours
+count number of bits for hour and minute
+add all the number of bits
+if number of bits equals turnedOn 
+then add that time period in a list
+then return list
+
+
+Code :
+
+class Solution {
+    public List<String> readBinaryWatch(int turnedOn) {
+        List<String> list=new ArrayList<>();
+        if(turnedOn>8){
+            return new ArrayList<>();
+        }
+        for(int minute=0;minute<60;minute++){
+            for(int hour=0;hour<12;hour++){
+                int h=Integer.bitCount(hour);
+                int m=Integer.bitCount(minute);
+                if(h+m==turnedOn){
+                    StringBuilder str=new StringBuilder();
+                    str.append(hour);
+                    str.append(":");
+                    if(minute<10){
+                        str.append("0");
+                    }
+                    str.append(minute);
+                    list.add(str.toString());
+                }
+            }
+        }
+        return list;
+    }
+}
