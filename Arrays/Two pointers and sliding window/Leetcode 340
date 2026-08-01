@@ -1,8 +1,18 @@
-Revisit Leetcode 904. fruits into baskets
+Revisit Leetcode 904. fruits into baskets , same as logic of solution 1
+
+Intuition :
+The only two difference of both the question are :
+array of number with limit 2 and characters with limit k
+
 
 Logic :
 
-Same as logic of Leetcode 904 , solution -1
+Initialise map for storing frequency of each character
+while size of map exceeds 2 , then move left pointer , and reduce its frequency in map
+and , if the character in the map equals zero , which tells that the cjharacter if not in the window , hence remove that key
+and , increment left pointer
+add the element in map if it not present , otherwise , increase its frequency
+if the size of map less than or equal to 2 , then calculate the window length
 
 
 Code :
