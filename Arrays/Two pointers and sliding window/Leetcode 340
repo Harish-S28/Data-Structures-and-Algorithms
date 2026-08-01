@@ -1,0 +1,27 @@
+Revisit Leetcode 904. fruits into baskets
+
+Logic :
+
+Same as logic of Leetcode 904 , solution -1
+
+
+Code :
+
+public static int Longestsubstring(String str, int k) {
+    HashMap<Character, Integer> map = new HashMap<>();
+    int left = 0;
+    int maxlen = 0;
+    for (int right = 0; right < str.length(); right++) {
+        map.put(str.charAt(right), map.getOrDefault(str.charAt(right), 0) + 1);
+        while (map.size() > k) {
+            char ch = str.charAt(left);
+            map.put(ch, map.get(ch) - 1);
+            if (map.get(ch) == 0) {
+                map.remove(ch);
+            }
+            left++;
+        }
+        maxlen = Math.max(maxlen, right - left + 1);
+    }
+    return maxlen;
+}
