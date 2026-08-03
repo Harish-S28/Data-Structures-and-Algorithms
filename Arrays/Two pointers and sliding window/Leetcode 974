@@ -1,0 +1,30 @@
+Logic :
+
+Traverse the array only once while maintaining the current prefix sum. 
+At every index, calculate the remainder of the current prefix sum when divided by k. 
+If the same remainder has already appeared before, then the subarray between the previous prefix sum and the current prefix sum is divisible by k,
+because equal remainders imply their difference is a multiple of k.
+Since the same remainder can occur multiple times, store its frequency in a HashMap and add that frequency to the answer. 
+If the remainder is negative, convert it to a positive remainder by adding k, so all equivalent remainders are treated the same.
+Finally,  store the current remainder in the map and continue traversing the array.
+
+Code :
+
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+        int prefix=0;
+        int c=0;
+        HashMap<Integer,Integer> map=new HashMap<>();
+        map.put(0,1);
+        for(int num:nums){
+            prefix+=num;
+            int rem=prefix%k;
+            if(rem<0){
+                rem+=k;
+            }
+             c+=map.getOrDefault(rem,0);
+            map.put(rem,map.getOrDefault(rem,0)+1);
+        }
+        return c;
+    }
+}
