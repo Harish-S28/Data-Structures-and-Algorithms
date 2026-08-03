@@ -3,7 +3,7 @@ Logic :
  traverse the array only once while maintaining the current prefix sum. At every index,  check whether there was a previous prefix sum equal to currentPrefix - k. 
 If it exists, then the elements between that previous position and the current position form a subarray with sum k.
 Since the same prefix sum can occur multiple times, store its frequency in a HashMap and add that frequency to my answer.
-Finally, Istore the current prefix sum in the map and continue.
+Finally, store the current prefix sum in the map and continue.
 
 Code :
 
