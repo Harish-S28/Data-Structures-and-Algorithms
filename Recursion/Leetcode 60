@@ -1,0 +1,56 @@
+Logic :
+
+Same as like solution of Leetcode 46 (Permutations)
+
+solved this problem using backtracking with an early stopping optimization. 
+First, create an array containing the numbers from 1 to n. 
+then use a boolean visited array to track which numbers have already been included in the current permutation and a temporary list to build the permutation step by step.
+At each recursive call, iterate through all the numbers. If a number has not been used,  add it to the current permutation, mark it as visited, and recursively continue building the remaining positions.
+When the current permutation reaches length n, it have generated one complete permutation. hence , store a copy of it in the answer list and decrement a global counter, which initially stores the value of k.
+To avoid generating unnecessary permutations, check whether the counter has reached zero at the beginning of every recursive call.
+Once k permutations have been generated, I immediately stop further recursion and return. This optimization prevents exploring the remaining permutation tree after finding the required number of permutations.
+Finally, since it stopped exactly after generating the kth permutation, the last permutation stored in the answer list is the required answer. 
+convert that permutation into a string and return it.
+
+
+Code :
+
+class Solution {
+    int g=0;
+    public String getPermutation(int n, int k) {
+        int[] nums=new int[n];
+        for(int i=1;i<=n;i++){
+            nums[i-1]=i;
+        }
+        g=k;
+        List<List<Integer>> ans=new ArrayList<>();
+        List<Integer> list=new ArrayList<>();
+        boolean[] f=new boolean[nums.length];
+        permutation(nums,f,list,ans);
+        String s="";
+        for(int num:ans.get(ans.size()-1)){
+            s+=num;
+        }
+        return s;
+
+    }
+    void permutation(int[] nums,boolean[] f,List<Integer> list,List<List<Integer>> ans){
+        if(g==0){
+            return;
+        }
+        if(list.size()==nums.length){
+            ans.add(new ArrayList<>(list));
+            g--;
+            return;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(!f[i]){
+                list.add(nums[i]);
+                f[i]=true;
+                permutation(nums,f,list,ans);
+                f[i]=false;
+                list.remove(list.size()-1);
+            }
+        }
+    }
+}
