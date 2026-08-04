@@ -1,5 +1,7 @@
 Logic :
 
+Solution - 1 :
+
 Same as like solution of Leetcode 46 (Permutations)
 
 solved this problem using backtracking with an early stopping optimization. 
@@ -13,7 +15,19 @@ Finally, since it stopped exactly after generating the kth permutation, the last
 convert that permutation into a string and return it.
 
 
+Solution - 2:
+
+Instead of generating all permutations, directly compute the kth permutation using factorial mathematics. 
+First, store all numbers from 1 to n in a list because it need to pick and remove numbers as it will build the answer. It also compute n! to determine the total number of permutations.
+Since Java uses zero-based indexing,  first convert k from one-based indexing to zero-based indexing by subtracting one.
+At each position,  calculate (n-1)!, which tells me how many permutations start with the same first digit.
+Using integer division k / (n-1)!,  determine which number should occupy the current position.  append that number to the answer and remove it from the available list.
+Then,  update k using the remainder operation k % (n-1)! because it only need to search within the selected group of permutations. repeat the same process for the remaining positions until all numbers are used.
+This approach avoids generating unnecessary permutations and computes the required answer efficiently in O(n²) time
+
 Code :
+
+Solution - 1:
 
 class Solution {
     int g=0;
@@ -52,5 +66,32 @@ class Solution {
                 list.remove(list.size()-1);
             }
         }
+    }
+}
+
+
+
+Solution - 2 :
+
+class Solution {
+    public String getPermutation(int n, int k) {
+        k=k-1;
+        int fact=1;
+        String s="";
+        ArrayList<Integer> list=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            list.add(i+1);
+            fact=fact*(i+1);
+        }
+        while(!list.isEmpty()){
+            fact=fact/n;
+            n--;
+            int index=k/fact;
+            s+=list.get(index);
+            list.remove(index);
+            k=k%fact;
+        }
+        return s;
+
     }
 }
