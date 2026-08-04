@@ -1,0 +1,32 @@
+Logic :
+
+solved this problem using an iterative approach. 
+start with the empty subset because every set always contains the empty subset. Then, It process each element of the input array one by one.
+For every existing subset, create a new subset by copying it and adding the current element. 
+The original subset remains unchanged, while the new subset includes the current element.
+These newly formed subsets are added to the result list.
+After processing all the elements, the result contains every possible subset of the given array.
+
+Intuition : 
+
+Make a copy of every subset and put me into the copy.
+
+
+Code :
+
+class Solution {
+    public List<List<Integer>> subsets(int[] arr) {
+        List<List<Integer>> outer = new ArrayList<>();
+        outer.add(new ArrayList<>());
+        for (int i=0;i<arr.length;i++) {
+            int index=0;
+            int n=outer.size();
+            for (int j = index; j < n; j++) {
+                List<Integer> inner = new ArrayList<>(outer.get(j));
+                inner.add(arr[i]);
+                outer.add(inner);
+            }
+        }
+        return outer;
+    }
+}
