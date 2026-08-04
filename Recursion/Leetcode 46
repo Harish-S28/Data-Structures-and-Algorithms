@@ -1,0 +1,35 @@
+Logic :
+
+solved this problem using the backtracking technique.maintain a temporary list that represents the current permutation being built and a boolean array to track which elements have already been used.
+At each recursive call,  iterate through all the numbers. If a number has not been used yet,  add it to the current permutation, mark it as visited, and recursively continue building the permutation.
+When the size of the current list becomes equal to the size of the input array, it means it formed one complete permutation.  create a copy of the current list and add it to the final answer.
+After returning from the recursive call, it perform backtracking by removing the last added element and marking it as unused. This restores the previous state so I can try the next available number at the current position.
+By exploring every unused element at every position and backtracking after each choice, the algorithm systematically generates all possible permutations without duplicates (assuming the input contains distinct elements).
+
+
+Code :
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans=new ArrayList<>();
+        List<Integer> list=new ArrayList<>();
+        boolean[] f=new boolean[nums.length];
+        permutation(nums,f,list,ans);
+        return ans;
+    }
+    void permutation(int[] nums,boolean[] f,List<Integer> list,List<List<Integer>> ans){
+        if(list.size()==nums.length){
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(!f[i]){
+                list.add(nums[i]);
+                f[i]=true;
+                permutation(nums,f,list,ans);
+                f[i]=false;
+                list.remove(list.size()-1);
+            }
+        }
+    }
+}
