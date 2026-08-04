@@ -1,0 +1,122 @@
+1)  Question :
+
+Imagine you have an N × N chessboard.
+
+You need to place N queens such that:
+
+No two queens are in the same row.
+No two queens are in the same column.
+No two queens are on the same diagonal.
+
+Return all possible valid board configurations
+
+
+
+2)  Simple intuition
+
+Imagine you're filling an exam hall.
+
+There are N rows.
+
+Each row must have exactly one student.
+
+Before seating a student in a seat, you check
+
+"Will this student cheat with anyone already seated?"
+
+If yes
+
+➡️ Try another seat.
+
+If no
+
+➡️ Seat the student and move to the next row.
+
+If later no seat works,
+
+➡️ Remove the previously seated student and try another seat.
+
+That is exactly backtracking.
+
+
+
+
+3)  Logic :
+
+solved this problem using the backtracking approach.
+Since each row must contain exactly one queen,  process the board row by row. For every row,  try placing the queen in each column one by one.
+Before placing a queen,  check whether the current position is safe by ensuring that no previously placed queen is present in the same column, the upper-left diagonal, or the upper-right diagonal.
+*Since queens are placed row by row from top to bottom, I only need to check the rows above the current row.
+
+If the position is safe,  place the queen and recursively move to the next row.
+If it successfully place queens in all rows,  convert the board into the required string representation and store it as one valid solution.
+If at any point no valid position exists in the current row,  backtrack by removing the previously placed queen and trying the next available column.
+This process continues until every possible valid arrangement has been explored
+
+
+4)  Code :
+
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        boolean[][] queen = new boolean[n][n];
+        return nqueen(queen,0);
+        
+    }
+      static List<List<String>> nqueen(boolean[][] queen,int row){
+        List<List<String>> list = new ArrayList<>();
+        if(row==queen.length){
+           list.add(display(queen));
+           return list;
+        }
+        for (int coln = 0; coln < queen.length; coln++) {
+            if(safe(queen,row,coln)){
+                queen[row][coln]=true;
+                list.addAll(nqueen(queen,row+1));
+                queen[row][coln]=false;
+            }
+        }
+        return list;
+
+    }
+        static List<String> display(boolean[][] queen) {
+            List<String> list=new ArrayList<>();
+        for(boolean[] maze:queen){
+            String str="";
+            for(boolean element:maze){
+                if(element){
+                   str+="Q";
+                }
+                else{
+                    str+=".";
+                }
+            }
+            list.add(str);
+        }
+        return list;
+    }
+     static boolean safe(boolean[][] queen, int row, int coln) {
+        //vertical check
+        for (int i = 0; i < row; i++) {
+            if(queen[i][coln]){
+                return false;
+            }
+        }
+        // left diagonal
+        int maxleft=Math.min(row,coln);
+        for (int j = 1; j <= maxleft; j++) {
+            if(queen[row-j][coln-j]){
+                return false;
+            }
+        }
+        // left diagonal
+        int maxright=Math.min(row,queen.length-coln-1);
+        for (int j = 1; j <= maxright; j++) {
+            if(queen[row-j][coln+j]){
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+}
