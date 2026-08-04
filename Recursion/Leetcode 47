@@ -1,0 +1,49 @@
+Logic :
+
+solved this problem using backtracking, similar to the normal permutation problem,
+but with an additional step to handle duplicate values.
+
+First, sort the input array so that duplicate elements become adjacent. This makes it easy to identify duplicates during recursion.
+maintain a temporary list to build the current permutation and a boolean visited array to track which elements have already been used.
+At each recursive call,  iterate through all the elements. If an element is already used,  skip it.
+To avoid generating duplicate permutations, before choosing an element , check whether it is the same as its previous element. 
+If it is a duplicate and the previous duplicate has not been used in the current recursive path,  skip the current element.
+This ensures that it always pick the first occurrence of a duplicate before considering the next one, preventing identical permutation branches from being explored.
+If the element is valid to use,  add it to the current permutation, mark it as visited, and recursively build the remaining permutation.
+When the current permutation reaches the same size as the input array,  copy it into the final answer.
+After returning from recursion,  backtrack it by removing the last element and marking it as unused. 
+This restores the previous state so that it can explore the remaining choices.
+By combining backtracking with the duplicate-skipping condition, the algorithm generates every unique permutation exactly once."
+
+
+Code :
+
+
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> ans=new ArrayList<>();
+        List<Integer> list=new ArrayList<>();
+        boolean[] f=new boolean[nums.length];
+        Arrays.sort(nums);
+        permutation(nums,f,list,ans);
+        return ans;
+    }
+    void permutation(int[] nums,boolean[] f,List<Integer> list,List<List<Integer>> ans){
+        if(list.size()==nums.length){
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        for(int i=0;i<nums.length;i++){
+            if(i>0 && nums[i]==nums[i-1] && !f[i-1]){
+                continue;
+            }
+            if(!f[i]){
+                list.add(nums[i]);
+                f[i]=true;
+                permutation(nums,f,list,ans);
+                f[i]=false;
+                list.remove(list.size()-1);
+            }
+        }
+    }
+}
