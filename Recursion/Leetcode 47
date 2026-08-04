@@ -16,6 +16,13 @@ This restores the previous state so that it can explore the remaining choices.
 By combining backtracking with the duplicate-skipping condition, the algorithm generates every unique permutation exactly once."
 
 
+Intuition :
+
+If this number is a duplicate, and the previous duplicate hasn't been used yet, skip it because duplicates must be picked from left to right
+
+Among equal numbers, always use the leftmost unused one first. Never start a branch with a later duplicate while an earlier duplicate is still available.
+
+
 Code :
 
 
