@@ -15,7 +15,7 @@ Finally, since it stopped exactly after generating the kth permutation, the last
 convert that permutation into a string and return it.
 
 
-Solution - 2:
+Solution - 2 (Optmised and prefer this solution):
 
 Instead of generating all permutations, directly compute the kth permutation using factorial mathematics. 
 First, store all numbers from 1 to n in a list because it need to pick and remove numbers as it will build the answer. It also compute n! to determine the total number of permutations.
@@ -24,6 +24,8 @@ At each position,  calculate (n-1)!, which tells me how many permutations start 
 Using integer division k / (n-1)!,  determine which number should occupy the current position.  append that number to the answer and remove it from the available list.
 Then,  update k using the remainder operation k % (n-1)! because it only need to search within the selected group of permutations. repeat the same process for the remaining positions until all numbers are used.
 This approach avoids generating unnecessary permutations and computes the required answer efficiently in O(n²) time
+
+Intuition : Every (n−1)! permutations form one group. Use k / (n−1)! to choose the group, remove that number, then use k % (n−1)! to search inside the group
 
 Code :
 
