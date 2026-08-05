@@ -7,3 +7,25 @@ Whenever my list size becomes **`k`**, it means I have found one valid combinati
 After returning from recursion, I remove the last element from the list. This is the **backtracking (undo)** step, which helps me try the next possible number.
 I also used a small optimization called **pruning**. Instead of looping till `n`, I stop early because if there aren't enough numbers left to complete a combination of size `k`, exploring that branch is unnecessary.
 This reduces extra recursive calls and makes the solution more efficient.
+
+
+Code :
+
+class Solution {
+    List<List<Integer>> ans=new ArrayList<>();
+    public List<List<Integer>> combine(int n, int k) {
+        comb(1,n,k,new ArrayList<>());
+        return ans;
+    }
+    void  comb(int index,int n,int k,List<Integer> list){
+        if(list.size()==k){
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        for(int i=index;i<= n-k+list.size()+1;i++){
+            list.add(i);
+            comb(i+1,n,k,list);
+            list.remove(list.size()-1);
+        }
+    }
+}
