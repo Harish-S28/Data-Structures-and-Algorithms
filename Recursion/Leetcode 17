@@ -1,0 +1,44 @@
+Logic :
+
+
+I solved this problem using backtracking because, for every digit, I have multiple letter choices, and I need to generate every possible combination.
+
+I first create a mapping from digits to their corresponding letters. Then I recursively process the input string one digit at a time.
+
+At each recursive call, I look at the current digit and get all the letters mapped to it. I then iterate through those letters.
+
+For each letter:
+
+I choose the letter by appending it to the current StringBuilder.
+I explore by recursively processing the next digit.
+Once the recursive call returns, I undo my choice by removing the last character from the StringBuilder. This is the backtracking step, which allows me to try the next possible letter.
+
+When index reaches the length of the input string, it means I have selected one letter for every digit. At that point, the current StringBuilder contains one complete combination, so I convert it into a string and store it in the answer list.
+
+So the overall pattern is:
+
+Choose a letter → Explore the next digit → Undo the choice → Try the next letter.
+
+
+
+Code :
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        String[] arr={"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        return lettercomb(arr,digits,0,new StringBuilder(),new ArrayList<>());
+    }
+    List<String> lettercomb(String[] arr,String digits,int index,StringBuilder str,List<String> ans){
+        if(index==digits.length()){
+            ans.add(str.toString());
+            return ans;
+        }
+        String s=arr[(digits.charAt(index)-'0')-2];
+        for(int i=0;i<s.length();i++){
+            str.append(s.charAt(i));
+            ans=lettercomb(arr,digits,index+1,str,ans);
+            str.deleteCharAt(str.length()-1);
+        }
+        return ans;
+    }
+}
