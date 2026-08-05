@@ -1,0 +1,9 @@
+Logic :
+
+solved this problem using **backtracking** because I need to generate all possible combinations.
+I start from number **1** and try every possible choice. Whenever I choose a number, I add it to my current list.
+Then I recursively choose the next numbers starting from **`i + 1`**, so I don't pick the same number again or generate duplicate combinations like `[2,1]` after `[1,2]`.
+Whenever my list size becomes **`k`**, it means I have found one valid combination, so I store a copy of it.
+After returning from recursion, I remove the last element from the list. This is the **backtracking (undo)** step, which helps me try the next possible number.
+I also used a small optimization called **pruning**. Instead of looping till `n`, I stop early because if there aren't enough numbers left to complete a combination of size `k`, exploring that branch is unnecessary.
+This reduces extra recursive calls and makes the solution more efficient.
