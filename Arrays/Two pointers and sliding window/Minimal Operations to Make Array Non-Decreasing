@@ -1,0 +1,72 @@
+# Problem Statement
+
+We are given an array `power[]` representing the computational power of servers.
+
+Our goal is to make the array **non-decreasing**, i.e.,
+
+```
+power[0] <= power[1] <= power[2] <= ...
+```
+
+We can perform the following operation any number of times:
+
+* Choose any contiguous subarray.
+* Choose a positive integer `x`.
+* Increase every element in that subarray by `x`.
+* The cost of that operation is only `x` (it does not depend on the size of the subarray).
+
+We need to find the **minimum total cost** required to make the array non-decreasing.
+
+---
+
+Logic :
+
+My first observation was that the cost of an operation depends only on the value `x`, not on how many elements are included in the chosen subarray.
+
+Because of this, if I already have to increase an element by some amount `x`, I can increase the entire suffix starting from that element by `x` without paying any additional cost.
+
+Now I scan the array from left to right.
+
+Whenever I find a pair where
+
+```
+power[i-1] > power[i]
+```
+
+there is a drop in the array.
+
+To make the array non-decreasing, this drop must be eliminated.
+
+The minimum increment required is
+
+```
+power[i-1] - power[i]
+```
+
+Since I can apply this increment to the entire suffix at the same cost, I simply add this difference to my answer.
+
+I repeat this process for every adjacent pair in the array.
+
+Therefore, the minimum total cost is simply the sum of all positive adjacent differences.
+
+Mathematically,
+
+Answer = Σ max(0, power[i-1] - power[i])
+
+
+
+Code :
+
+
+public class Main
+{
+	public static void main(String[] args) {
+		int[] arr={7,4,4};
+		int maxval=arr[0];
+		int count=0;
+		for(int i=1;i<arr.length;i++){
+		    count+=Math.max(0,(arr[i-1]-arr[i]));
+		}
+		System.out.print(count);
+	}
+}
