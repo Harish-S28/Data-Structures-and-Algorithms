@@ -1,0 +1,49 @@
+Leetcode - 860
+
+Logic :
+
+Initialise five , ten and twenty 
+traverse the array in for loop using num variable
+if the num equal to 5 , then increment variable five
+else if the num equal to 10 , then check whether you can able to give five rupee change , i.e., five should not be positive. if yes , decrement five and increment 10 , else return false
+else , (balance should be 15)
+    check whether you have ten and five rupee denomination , then decrement five and ten.   
+    else check whether you have atleast 3 five rupee denomination , then reduce five to 3 times
+    else return false
+if for loop iterates fully , it indicates , there is sufficient amount of changes possible , so return true
+
+Code :
+
+class Solution {
+    public boolean lemonadeChange(int[] bills) {
+        int five=0;
+        int ten=0;
+        int twenty=0;
+        for(int num:bills){
+            if(num==5){
+                five++;
+            }
+            else if(num==10){
+                if(five<=0){
+                    return false;
+                }
+                five--;
+                ten++;
+            }
+            else{
+                if(ten>0 && five>0){
+                    ten--;
+                    five--;
+                }
+                else if(five>2){
+                    five-=3;
+                }
+                else{
+                    return false;
+                }
+            }
+            
+        }
+        return true;
+    }
+}
