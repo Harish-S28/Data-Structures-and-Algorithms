@@ -1,0 +1,47 @@
+Leetcode - 55
+
+
+Intuition:
+
+At every index, I keep track of the farthest position I can reach. If I can always reach the current index, I update my maximum reach. If I ever can't reach the current index, it's impossible to reach the end
+
+
+Logic :
+
+I solved this problem using a **greedy approach**.
+
+I maintain a variable called `far`, which stores the **farthest index I can reach** while traversing the array.
+
+Initially, I'm at index `0`, so the farthest reachable index is `0`.
+
+Then I iterate through the array from left to right.
+
+Before processing the current index, I check whether the current index is greater than `far`. If it is, that means I cannot even reach this position, so it's impossible to reach the last index. In that case, I immediately return `false`.
+
+If the current index is reachable, I update `far` by taking the maximum of its current value and `i + nums[i]`. This tells me the farthest position I can reach either from the previous jumps or by jumping from the current index.
+
+I continue updating `far` until I finish traversing the array.
+
+If I successfully process every index without getting stuck, it means every required position was reachable, so I return `true`.
+
+The greedy idea is that I don't need to try every possible jump. I only keep track of the **maximum reachable index**, which is enough to determine whether I can reach the end.
+
+**Time Complexity:** `O(n)` because I traverse the array only once.
+
+**Space Complexity:** `O(1)` because I use only one extra variable.
+
+
+Code :
+
+class Solution {
+    public boolean canJump(int[] nums) {
+        int far=0;
+        for(int i=0;i<nums.length;i++){
+            if(i>far){
+                return false;
+            }
+            far=Math.max(far,i+nums[i]);
+        }
+        return true;
+    }
+}
