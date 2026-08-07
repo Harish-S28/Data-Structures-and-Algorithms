@@ -1,0 +1,42 @@
+Leetcode - 455
+
+Logic :
+
+I solved this problem using a greedy approach.
+
+First, I sort both the children's greed factors and the cookie sizes in ascending order.
+
+My goal is to satisfy as many children as possible, so I always try to satisfy the least greedy child first using the smallest cookie that is big enough.
+
+I maintain two pointers:
+
+l points to the current child.
+r points to the current cookie.
+
+If the current cookie can satisfy the current child (g[l] <= s[r]), I assign that cookie to the child and move to the next child.
+
+Whether the cookie satisfies the child or not, that cookie has now been considered, so I move to the next cookie.
+
+I continue this process until I run out of children or cookies.
+
+Finally, the value of l represents the number of satisfied children.
+
+
+
+Code :
+
+class Solution {
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int l=0;
+        int r=0;
+        while(l<g.length && r<s.length){
+            if(g[l]<=s[r]){
+                l++;
+            }
+            r++;
+        }
+        return l;
+    }
+}        
