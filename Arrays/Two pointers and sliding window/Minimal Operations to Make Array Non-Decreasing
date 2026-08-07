@@ -62,7 +62,6 @@ public class Main
 {
 	public static void main(String[] args) {
 		int[] arr={7,4,4};
-		int maxval=arr[0];
 		int count=0;
 		for(int i=1;i<arr.length;i++){
 		    count+=Math.max(0,(arr[i-1]-arr[i]));
