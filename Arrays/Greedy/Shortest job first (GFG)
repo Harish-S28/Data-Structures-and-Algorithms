@@ -1,0 +1,35 @@
+Logic :
+
+
+I solved this problem using a **greedy approach**.
+
+First, I sort the array in ascending order because executing the shorter jobs first minimizes the waiting time of the remaining jobs. This is the optimal strategy for minimizing the average waiting time.
+
+After sorting, I maintain a variable `temp` to store the cumulative execution time of all previously completed jobs. This cumulative time represents the waiting time for the current job.
+
+As I iterate through the array (except the last job, whose waiting time is zero), I keep adding the current job's duration to `temp`. Then I add `temp` to the total waiting time `g`.
+
+Finally, I divide the total waiting time by the number of jobs to get the average waiting time.
+
+So, the overall idea is:
+
+**Sort the jobs by increasing execution time → Compute the cumulative waiting time for each job → Sum all waiting times → Divide by the total number of jobs.**
+
+This greedy strategy works because processing shorter jobs first prevents longer jobs from unnecessarily increasing the waiting time of many other jobs.
+
+
+Code:
+
+class Solution {
+    static int solve(int arr[]) {
+        Arrays.sort(arr);
+        int temp=0;
+        int g=0;
+        for(int i=0;i<arr.length-1;i++){
+            temp+=arr[i];
+            arr[i]=temp;
+            g+=temp;
+        }
+        return g/arr.length;
+    }
+}
