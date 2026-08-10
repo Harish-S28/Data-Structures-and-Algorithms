@@ -1,0 +1,57 @@
+Leetcode -62
+
+1. Problem Statement
+
+You have an m × n grid.
+
+The robot starts at the top-left corner and wants to reach the bottom-right corner.
+
+It can only move:
+
+➡️ Right
+⬇️ Down
+
+The question is:
+
+How many different paths are possible?
+
+2. 🧠 Intuition
+
+To reach any cell (i, j), the robot can only come from two places:
+
+       (i-1,j)
+          ↓
+(i,j-1) → (i,j)
+
+So:
+
+ways(i,j) = ways(i-1,j) + ways(i,j-1)
+
+In simple words:
+
+The number of ways to reach the current cell is the number of ways to reach the cell above it plus the number of ways to reach the cell on its left.
+
+
+3.Logic :
+
+The robot can move only right or down. To reach any cell, it must come either from the cell above or from the cell to its left. Therefore, the number of ways to reach a cell is the sum of the ways to reach those two cells."
+
+"Normally I could use a 2D DP table, but each cell only depends on the current left value and the previous row's value. So I optimize it to a 1D DP array."
+
+"Initially, I fill the array with 1 because there is only one way to reach every cell in the first row. Then I update each position using dp[j] + dp[j-1], where dp[j] is the value from above and dp[j-1] is the value from the left."
+
+
+4. Code 
+
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[] dp=new int[n];
+        Arrays.fill(dp,1);
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
+                dp[j]=dp[j]+dp[j-1];
+            }
+        }
+        return dp[n-1];
+    }
+}
