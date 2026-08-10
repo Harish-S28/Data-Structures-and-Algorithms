@@ -1,0 +1,72 @@
+Code ninjas
+
+1. Problem Statement
+
+You are given an array of numbers.
+
+You need to select some elements such that no two selected elements are adjacent, and you want to maximize the total sum.
+
+Example:
+
+nums = [2, 1, 4, 9]
+
+Best choice:
+
+2 + 9 = 11
+
+We cannot choose 4 and 9 together because they are adjacent.
+
+
+2. 🧠 Intuition
+
+At every element, we have two choices:
+
+Choice 1: Don't take the current element
+
+Then the best answer remains whatever we got until the previous index:
+
+dp[i-1]
+Choice 2: Take the current element
+
+If we take nums[i], we cannot take nums[i-1].
+
+So we take the best answer from two positions before and add the current element:
+
+dp[i-2] + nums[i]
+
+Therefore:
+
+dp[i] = max(
+    dp[i-1],
+    dp[i-2] + nums[i]
+)
+
+That's the entire DP idea.
+
+
+3. Logic 
+
+The problem is to find the maximum sum of elements such that no two selected elements are adjacent.
+
+I use dynamic programming where dp[i] represents the maximum sum possible from index 0 to index i without selecting adjacent elements.
+
+For every element, I have two choices. I can skip the current element, in which case the answer is dp[i-1]. Or I can take the current element, but then I cannot take the previous element, so the answer becomes dp[i-2] + nums[i].
+
+I take the maximum of these two choices and store it in dp[i]. Finally, dp[n-1] gives the maximum non-adjacent sum.
+
+
+4. Code 
+
+public static int maximumNonAdjacentSum(ArrayList<Integer> nums) {
+		int[] dp=new int[nums.size()];
+        dp[0]=nums.get(0);
+        if(dp.length==1){
+            return dp[0];
+        }
+        dp[1]=Math.max(nums.get(0),nums.get(1));
+        for(int i=2;i<nums.size();i++){
+            dp[i]=Math.max(dp[i-1],dp[i-2]+nums.get(i));
+        }
+        return dp[nums.size()-1];
+    }
+
