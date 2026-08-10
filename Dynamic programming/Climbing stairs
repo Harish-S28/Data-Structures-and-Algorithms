@@ -1,0 +1,40 @@
+Intuition:
+
+The important observation is:
+
+To reach stair n, I can come from only two places:
+
+From stair n-1 by taking 1 step
+From stair n-2 by taking 2 steps
+
+So,
+
+ways(n) = ways(n-1) + ways(n-2)
+
+This is exactly the Fibonacci pattern.
+
+
+Logic :
+
+The problem asks us to find the number of ways to reach the nth stair when we can take either one or two steps at a time.
+
+The key observation is that to reach stair n, I can come either from n-1 by taking one step or from n-2 by taking two steps. So the number of ways to reach n is the sum of the ways to reach n-1 and n-2.
+
+I store these results in a list. I initialize the first two values as 1 and 2, and then iteratively calculate each next value using the previous two values. This is a bottom-up dynamic programming approach
+
+
+Code :
+
+class Solution(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n==1 or n==0:
+            return n
+        l=[1,2]
+        for i in range(2,n):
+            l.append(l[i-1]+l[i-2])
+        return l[len(l)-1]
+        
