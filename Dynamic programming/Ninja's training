@@ -1,0 +1,96 @@
+Naukri code 360
+
+1. Problem Statement
+
+You have n days of training.
+
+Every day, the ninja can perform one of 3 activities:
+
+0 → Activity 0
+1 → Activity 1
+2 → Activity 2
+
+Each activity gives some points.
+
+Rule: The ninja cannot perform the same activity on two consecutive days.
+
+The goal is to find the maximum total points over all n days.
+
+For example:
+
+points = [
+    [10, 40, 70],
+    [20, 50, 80],
+    [30, 60, 90]
+]
+
+On day 0, suppose we choose activity 2 → 70.
+
+On day 1, we cannot choose activity 2, so we can choose activity 0 or 1.
+
+We need to find the maximum possible total.
+
+
+
+.
+
+🧠 2. Main Intuition
+
+Think about today's activity.
+
+Suppose today I choose activity 0.
+
+Then yesterday I cannot have chosen activity 0.
+
+So yesterday must have been:
+
+Activity 1 OR Activity 2
+
+Therefore:
+
+best today activity 0
+=
+points today activity 0
++
+max(best yesterday activity 1,
+    best yesterday activity 2)
+
+Similarly:
+
+If today I choose activity 1:
+points[i][1]
++
+max(points[i-1][0], points[i-1][2])
+If today I choose activity 2:
+points[i][2]
++
+max(points[i-1][0], points[i-1][1])
+
+That's the entire DP idea.
+
+
+Logic :
+
+The problem is to maximize the total training points over N days, where the ninja can perform one of three activities each day, but cannot perform the same activity on consecutive days."
+
+"I use dynamic programming where each state represents the maximum points obtained up to the current day if a particular activity is performed on that day."
+
+"For example, if I choose activity 0 today, I could have performed only activity 1 or activity 2 yesterday. So I take the maximum of those two previous states and add today's activity 0 points. I do the same for activities 1 and 2."
+
+"I update the given points array itself instead of creating a separate DP array. Finally, on the last day, I take the maximum among the three activities
+
+
+
+Code :
+
+public class Solution {
+    public static int ninjaTraining(int n, int points[][]) {
+        for(int i=1;i<points.length;i++){
+            points[i][0]=Math.max(points[i-1][1],points[i-1][2])+points[i][0];
+            points[i][1]=Math.max(points[i-1][0],points[i-1][2])+points[i][1];
+            points[i][2]=Math.max(points[i-1][0],points[i-1][1])+points[i][2];
+        }
+        return Math.max(points[points.length-1][0],Math.max(points[points.length-1][1],points[points.length-1][2]));
+    }
+    }
+
