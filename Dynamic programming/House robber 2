@@ -1,0 +1,62 @@
+Leetcode - 213  🏠 House Robber II
+
+
+1. Problem Statement
+
+You have houses arranged in a circle.
+
+Each house contains some money.
+
+You want to rob houses and get the maximum amount of money, but:
+
+You cannot rob two adjacent houses.
+
+Because the houses are circular, the first and last houses are also adjacent.
+
+Example:
+
+nums = [2, 7, 9, 3, 1]
+
+You cannot rob both 2 and 1.
+
+
+
+2. 🧠 Main Intuition
+
+same as like house robber - I
+Do dp on house robber in the range
+  0 till last_index-1
+  1 till last_index
+return max(last_index,last_index-1)
+
+
+Logic :
+
+Since the houses are arranged in a circle, the first and last houses are adjacent, so I cannot rob both of them. Therefore, I divide the problem into two cases.
+
+In the first case, I exclude the last house and apply the normal House Robber DP from the first house to the second-last house. In the second case, I exclude the first house and apply the same DP from the second house to the last house.
+
+For each house, I either skip it and keep the previous maximum, or rob it and add its money to the maximum from two houses before. Finally, I take the maximum result from these two cases
+
+
+Code :
+
+public int rob(int[] nums) {
+        if(nums.length==1){
+            return nums[0];
+        }
+        if(nums.length==2){
+            return Math.max(nums[0],nums[1]);
+        }
+        int[] dp=new int[nums.length];
+        dp[0]=nums[0];
+        dp[1]=Math.max(nums[0],nums[1]);
+        for(int i=2;i<nums.length-1;i++){
+            dp[i]=Math.max(dp[i-1],nums[i]+dp[i-2]);
+        }
+        nums[2]=Math.max(nums[1],nums[2]);
+        for(int i=3;i<nums.length;i++){
+             nums[i]=Math.max(nums[i-1],nums[i]+nums[i-2]);
+        }
+        return Math.max(dp[nums.length-2],nums[nums.length-1]);
+    }
