@@ -1,0 +1,69 @@
+Leetcode - 198
+
+🏠 Problem Statement
+
+You have houses in a row, and each house has some amount of money.
+
+You want to rob houses to get the maximum money, but:
+
+You cannot rob two adjacent houses because the alarm will trigger.
+
+Example:
+
+arr = [2, 7, 9, 3, 1]
+
+Best choice:
+
+2 + 9 + 1 = 12
+
+So answer = 12.
+
+
+🧠 Intuition
+
+When I'm standing at house i, I have two choices:
+
+1. Don't rob house i
+
+Then I keep the maximum money I had until the previous house:
+
+arr[i-1]
+2. Rob house i
+
+If I rob house i, I cannot rob house i-1].
+
+So I take:
+
+arr[i-2] + arr[i]
+
+Therefore:
+
+maximum = max(
+    don't rob current → arr[i-1],
+    rob current → arr[i-2] + arr[i]
+)
+
+
+Logic :
+
+This is a dynamic programming problem where I need to maximize the money robbed without robbing two adjacent houses.
+
+For every house, I have two choices: either skip the current house and keep the maximum amount from the previous house, or rob the current house. If I rob it, I cannot rob the previous house, so I add the current amount to the maximum amount from two houses before.
+
+I take the maximum of these two choices. In my implementation, I update the input array itself instead of using a separate DP array, so I am doing the DP in-place.
+
+
+Code :
+
+class Solution {
+    public int rob(int[] arr) {
+        if(arr.length==1){
+            return arr[0];
+        }
+        arr[1]=Math.max(arr[0],arr[1]);
+        for (int i = 2; i < arr.length; i++) {
+            arr[i]=Math.max((arr[i]+arr[i-2]),arr[i-1]);
+        }
+        return arr[arr.length-1];
+    }
+}
