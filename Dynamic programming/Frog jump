@@ -1,0 +1,62 @@
+Naukri code 360
+
+
+1. Problem Statement :
+
+We have n stairs, and each stair has a height.
+
+The frog starts at the 0th stair and wants to reach the last stair.
+
+The frog can jump:
+
+1 stair, or
+2 stairs
+
+The cost of a jump is the absolute difference between the heights of the two stairs.
+
+We need to find the minimum total cost required to reach the last stair.
+
+2. Intuition :
+
+The important question is:
+
+How can I reach stair i?
+
+Since the frog can jump either 1 or 2 stairs, there are only two possibilities:
+
+i-2 ──────→ i
+     jump 2
+
+i-1 ──────→ i
+     jump 1
+
+So to reach stair i, I can either:
+
+Come from i-1
+Come from i-2
+
+We calculate the cost of both possibilities and choose the smaller one.
+
+
+
+3. DP Transition
+
+Your main logic is:
+
+dp[i] = Math.min(
+    Math.abs(heights[i] - heights[i-1]) + dp[i-1],
+    Math.abs(heights[i] - heights[i-2]) + dp[i-2]
+);
+
+4. Code 
+
+ public static int frogJump(int n, int heights[]) {
+        int[] dp=new int[heights.length];
+        dp[0]=0;
+        dp[1]=Math.abs(heights[0]-heights[1]);
+        for(int i=2;i<heights.length;i++){
+            dp[i]=Math.min(Math.abs(heights[i]-heights[i-1])+dp[i-1],Math.abs(heights[i]-heights[i-2])+dp[i-2]);
+
+        }
+        return dp[heights.length-1];
+    }
