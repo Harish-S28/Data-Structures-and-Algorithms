@@ -1,0 +1,107 @@
+LeetCode 120 — Triangle
+
+1. Problem Statement
+
+You are given a triangle of numbers.
+
+Starting from the top, you need to reach the bottom.
+
+From a position (i, j), you can move to either:
+
+the element directly below: (i+1, j)
+the element below-right: (i+1, j+1)
+
+You need to find the minimum possible sum from the top to the bottom.
+
+Example
+        2
+       / \
+      3   4
+     / \ / \
+    6   5   7
+   / \ / \ / \
+  4   1  8   3
+
+One minimum path is:
+
+2 → 3 → 5 → 1
+
+Sum:
+
+2 + 3 + 5 + 1 = 11
+
+Answer = 11.
+
+
+2. 🧠 Intuition
+
+Think about a particular element in the triangle.
+
+From that element, I have two choices:
+
+        current
+        /     \
+     below   below-right
+
+I want the minimum total path, so I should choose whichever child gives me the smaller remaining path.
+
+Instead of starting from the top and trying every possible path, we can work from the bottom toward the top.
+
+Why bottom-up?
+
+Suppose we have:
+
+       3
+      / \
+     6   5
+
+For 3, there are two possible paths:
+
+3 → 6
+3 → 5
+
+The better choice is:
+
+3 + min(6,5)
+= 3 + 5
+= 8
+
+So we replace 3 with 8.
+
+Now 3 already represents:
+
+Minimum path sum from this position to the bottom.
+
+We repeat this for every row.
+
+triangle.get(i).set(
+    j,
+    triangle.get(i).get(j)
+    + Math.min(
+        triangle.get(i+1).get(j),
+        triangle.get(i+1).get(j+1)
+    )
+);
+
+
+Logic :
+
+The problem is to find the minimum path sum from the top of a triangle to the bottom. From each element, I can move to either the element directly below it or the element below-right.
+
+I use bottom-up dynamic programming. Starting from the second-last row, for every element I choose the minimum of its two children and add that value to the current element. This gives the minimum path sum from that position to the bottom.
+
+I update the triangle in-place, so I don't need a separate DP array. After processing all rows, the top element contains the minimum path sum
+
+Code :
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int size=triangle.size();
+        for(int i=size-2;i>=0;i--){
+            for(int j=0;j<triangle.get(i).size();j++){
+                triangle.get(i).set(j,triangle.get(i).get(j)+Math.min(triangle.get(i+1).get(j),triangle.get(i+1).get(j+1)));
+            }
+        }
+        return triangle.get(0).get(0);
+    }
+}
