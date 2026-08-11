@@ -1,0 +1,62 @@
+🌳 LeetCode 100 — Same Tree
+1. Problem Statement
+
+You are given the roots of two binary trees p and q.
+
+You need to check whether the two trees are exactly the same.
+
+Two trees are considered the same if:
+
+Their corresponding nodes have the same values.
+Their structures are the same.
+
+Example:
+
+Tree 1:        1
+              / \
+             2   3
+
+Tree 2:        1
+              / \
+             2   3
+
+Answer:
+
+true
+
+But:
+
+Tree 1:        1
+              /
+             2
+
+Tree 2:        1
+                \
+                 2
+
+Answer:
+
+false
+
+Even though the values are the same, their structures are different.
+
+
+Logic :
+
+I compare the two trees recursively.
+If both nodes are null, they are equal at that position. 
+If only one is null, the structures are different, so I return false.
+Otherwise, I check whether their values are equal and recursively compare their left and right subtrees.
+All three conditions must be true for the two trees to be identical
+
+Code :
+
+public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p==null && q==null){
+            return true;
+        }
+        if(p==null || q==null){
+            return false;
+        }
+        return p.val==q.val && isSameTree(p.left,q.left) && isSameTree(p.right,q.right);
+    }
