@@ -1,0 +1,49 @@
+🌳 LeetCode 111 — Minimum Depth of Binary Tree
+1. Problem Statement
+
+Given the root of a binary tree, find the minimum depth of the tree.
+
+The minimum depth is the number of nodes along the shortest path from the root node to the nearest leaf node.
+
+A leaf node is a node with:
+
+left == null
+right == null
+Example
+        3
+       / \
+      9   20
+         /  \
+        15   7
+
+Paths to leaves:
+
+3 → 9          → 2 nodes
+3 → 20 → 15    → 3 nodes
+3 → 20 → 7     → 3 nodes
+
+Therefore:
+
+Answer = 2
+
+2. Logic :
+
+The problem asks for the shortest path from the root to a leaf. I use recursive DFS. For every node, I calculate the minimum depth of its left and right subtrees and add one for the current node.
+
+The important case is when one child is null. I cannot treat a null child as depth zero because that would represent a path that doesn't exist. So I treat a missing child as Integer.MAX_VALUE, effectively infinity, so it will never be selected as the minimum.
+
+If the current node is a leaf, I return one because the current node itself contributes one to the depth
+
+3. Code :
+
+class Solution {
+    public int minDepth(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+        if(root.left==null && root.right==null){
+            return 1;
+        }
+        return 1+Math.min(root.left!=null?minDepth(root.left):Integer.MAX_VALUE,root.right!=null?minDepth(root.right):Integer.MAX_VALUE);
+    }
+}
