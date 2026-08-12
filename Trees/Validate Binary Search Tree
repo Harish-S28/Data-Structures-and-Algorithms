@@ -1,0 +1,83 @@
+LeetCode 98 — Validate Binary Search Tree
+1. Problem Statement
+
+Given the root of a binary tree, determine whether it is a valid Binary Search Tree (BST).
+
+For a valid BST:
+
+left subtree values < node value < right subtree values
+
+This rule must be true for every node.
+
+Example
+        5
+       / \
+      3   7
+     / \ / \
+    2  4 6  8
+
+This is a valid BST ✅
+
+2. 🧠 Intuition
+
+A common mistake is to check only the immediate children.
+
+For example:
+
+        5
+       / \
+      3   7
+     /
+    6
+
+6 < 5 is false, so 6 cannot be anywhere inside the left subtree of 5.
+
+Therefore, when we move down the tree, we need to remember:
+
+What is the allowed range for the current node?
+
+Initially, any value is allowed:
+
+(-∞, +∞)
+
+For the root 5:
+
+left subtree → (-∞, 5)
+right subtree → (5, +∞)
+
+Then if we go into the left child 3:
+
+3's allowed range = (-∞, 5)
+
+If we go into its right child:
+
+allowed range = (3, 5)
+
+So every node gets a valid range
+
+
+Logic :
+
+To validate a BST, I maintain a valid range for every node.
+Initially, the root can have any value, so its range is negative infinity to positive infinity. 
+When I move to the left subtree, the current node becomes the upper bound because all left values must be smaller.
+When I move to the right subtree, the current node becomes the lower bound because all right values must be larger.
+If any node falls outside its allowed range, I return false. If I reach null for every path, the tree is a valid BST.
+
+Code :
+
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return valid(root,Long.MAX_VALUE,Long.MIN_VALUE);
+    }
+    boolean valid(TreeNode node,long max,long min){
+        if(node==null){
+            return true;
+        }
+        if(node.val<=min  || node.val>=max){
+            return false;
+        }
+        return valid(node.left,node.val,min) && valid(node.right,max,node.val);
+    }
+}
