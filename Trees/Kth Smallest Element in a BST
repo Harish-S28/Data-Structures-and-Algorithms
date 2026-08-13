@@ -1,0 +1,31 @@
+Logic :
+
+declare level globally
+check whether root is null , then return 0
+do like inorder traversal
+go on left tree on recursion
+when you come back increase the level by 1
+chech whether the level is equal to k then return root value
+then go on right recursive call
+return the max value of left and right (this condition will return the root value if found , else 0)
+
+Code :
+
+class Solution {
+    int lvl=0;
+    public int kthSmallest(TreeNode root, int k) {
+        if(root==null){
+            return 0;
+        }
+       
+        int val1=kthSmallest(root.left,k);
+        lvl+=1;
+        if(lvl==k){
+            return root.val;
+        }
+        int val2=kthSmallest(root.right,k);
+        return val1>val2?val1:val2;
+
+
+    }
+}
