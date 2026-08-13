@@ -1,0 +1,116 @@
+LeetCode 114 — Flatten Binary Tree to Linked List
+1. Problem Statement
+
+You are given a binary tree.
+
+You need to flatten it into a linked list in-place.
+
+The resulting linked list should follow the tree's preorder traversal:
+
+Root → Left → Right
+
+After flattening:
+
+Every node's left must be null.
+Every node's right should point to the next node in preorder.
+Example
+
+Original:
+
+        1
+       / \
+      2   5
+     / \   \
+    3   4   6
+
+Preorder:
+
+1 → 2 → 3 → 4 → 5 → 6
+
+Flattened:
+
+1
+ \
+  2
+   \
+    3
+     \
+      4
+       \
+        5
+         \
+          6
+2. 🧠 Intuition Behind Your Code
+
+Your solution uses postorder recursion:
+
+flatten(root.left);
+flatten(root.right);
+
+So before modifying the current node, you first flatten:
+
+left subtree
+right subtree
+
+Suppose we have:
+
+        1
+       / \
+      2   5
+     / \
+    3   4
+
+After:
+
+flatten(root.left);
+
+the left subtree becomes:
+
+2
+ \
+  3
+   \
+    4
+
+After:
+
+flatten(root.right);
+
+the right subtree becomes:
+
+5
+
+Now you need to connect them:
+
+1 → 2 → 3 → 4 → 5
+
+Logic :
+
+The goal is to convert the binary tree into a linked list following its preorder traversal: Root → Left → Right. I do this recursively. 
+First, I flatten the left subtree and then the right subtree, so both subtrees are already converted into linked lists.
+Then, I find the last node of the flattened left subtree and connect it to the original right subtree.
+Finally, I move the flattened left subtree to the right of the current node and set its left pointer to null.
+
+Code:
+
+class Solution {
+    public void flatten(TreeNode root) {
+        if(root==null){
+            return;
+        }
+        flatten(root.left);
+        flatten(root.right);
+        TreeNode node=root.left;
+        if(node==null){
+            return;
+        }
+        while(node.right!=null){
+            node=node.right;
+        }
+        node.right=root.right;
+        root.right=root.left;
+        root.left=null;
+        return;
+        
+    }
+}
