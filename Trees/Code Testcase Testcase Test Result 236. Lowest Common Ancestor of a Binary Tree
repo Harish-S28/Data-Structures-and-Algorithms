@@ -1,0 +1,28 @@
+Logic :
+
+check whether root is p or root is q 
+then return root
+search for p and q on left subtree
+search for p and q on right subtree
+if both the nodes found , then return root because , it is the ancestor of p and q
+otherwise return which the node(left,right) which is not null
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null){
+            return null;
+        }
+        if(root==p || root==q){
+            return root;
+        }
+        TreeNode nodeL=lowestCommonAncestor(root.left,p,q);
+        TreeNode nodeR=lowestCommonAncestor(root.right,p,q);
+        if(nodeL==p && nodeR==q || nodeL==q && nodeR==p){
+            return root;
+        }
+        if(nodeL!=null){
+            return nodeL;
+        }
+        return nodeR;
+    }
+}
