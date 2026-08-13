@@ -1,0 +1,136 @@
+LeetCode 116 — Populating Next Right Pointers in Each Node
+1. Problem Statement
+
+You are given a perfect binary tree.
+
+Each node has:
+
+Node {
+    int val;
+    Node left;
+    Node right;
+    Node next;
+}
+
+Initially, every next is null.
+
+Your task is to connect each node to the next node on its right at the same level.
+
+Example
+
+Before:
+
+          1
+        /   \
+       2     3
+      / \   / \
+     4   5 6   7
+
+After:
+
+          1 → null
+
+       2 → 3 → null
+
+    4 → 5 → 6 → 7 → null
+
+Return root.
+
+2. 🧠 Main Intuition of Your Solution
+
+Your solution is using the fact that the tree is perfect.
+
+A perfect binary tree means:
+
+Every internal node has:
+    left child
+    right child
+
+and
+
+Every leaf is at the same level.
+
+So if you're currently processing a level:
+
+2 → 3
+
+you can connect:
+
+curr.left.next = curr.right;
+
+which gives:
+
+2.left → 2.right
+
+or:
+
+4 → 5
+The more important connection
+
+Now consider:
+
+        2
+       / \
+      4   5
+
+        3
+       / \
+      6   7
+
+We need:
+
+5 → 6
+
+How do we find 6?
+
+Because 5's parent is 2, and 2.next is 3.
+
+Therefore:
+
+curr.right.next = curr.next.left;
+
+So:
+
+        curr              curr.next
+          2  ───────────────→  3
+         / \                / \
+        4   5              6   7
+
+        5.next = 3.left
+
+Result:
+
+4 → 5 → 6 → 7
+
+Logic :
+
+Since the tree is perfect, every node at an internal level has both left and right children.
+I process the tree level by level without using a queue. For each node, I connect its left child to its right child. 
+Then, if the current node has a next node, I connect its right child to the next node's left child.
+I use the already established next pointers to move horizontally across the level, giving O(1) extra space.
+
+Code:
+
+
+class Solution {
+    public Node connect(Node root) {
+       if(root==null){
+        return null;
+       }
+       Node left=root;
+       while(left.left!=null){
+        Node curr=left;
+        while(curr!=null){
+            curr.left.next=curr.right;
+             if(curr.next!=null){
+                curr.right.next=curr.next.left;
+              //  curr.left.next=curr.right;
+             }
+            curr=curr.next;
+        }
+        left=left.left;
+       }
+        
+       return root;
+    }
+}
