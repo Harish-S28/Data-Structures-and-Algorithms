@@ -1,0 +1,131 @@
+LeetCode 993 — Cousins in Binary Tree
+1. Problem Statement
+
+You are given a binary tree and two node values x and y.
+
+You need to determine whether x and y are cousins.
+
+Two nodes are cousins if:
+
+They are at the same depth.
+They have different parents.
+Example
+        1
+       / \
+      2   3
+     /     \
+    4       5
+
+For:
+
+x = 4
+y = 5
+
+Depth:
+
+4 → depth 2
+5 → depth 2
+
+Parents:
+
+parent(4) = 2
+parent(5) = 3
+
+Different parents + same depth:
+
+4 and 5 → cousins
+
+Answer:
+
+true
+2. 🧠 Your Intuition
+
+You divided the problem into two independent checks.
+
+Check 1 — Same depth
+
+You use:
+
+int depth1 = depth(root, x, 1);
+int depth2 = depth(root, y, 1);
+
+Your depth() recursively searches for the node and returns its depth.
+
+Then:
+
+depth1 == depth2
+
+means:
+
+x and y are at the same level.
+
+Check 2 — Not siblings
+
+Your check() function looks at every parent.
+
+For example:
+
+        2
+       / \
+      4   5
+
+If:
+
+x = 4
+y = 5
+
+then:
+
+root.left.val == x
+root.right.val == y
+
+So they are children of the same parent.
+
+That means they are siblings, not cousins.
+
+Therefore:
+
+return false;
+
+
+Logic :
+
+Find the depth of both nodes and make sure they are equal, then traverse the tree and make sure x and y are never the left and right children of the same parent.
+
+
+Code:
+
+class Solution {
+    public boolean isCousins(TreeNode root, int x, int y) {
+        int depth1=depth(root,x,1);
+        int depth2=depth(root,y,1);
+        return check(root,x,y) && depth1==depth2 ;
+    }
+    boolean check(TreeNode root,int x,int y){
+         if(root==null){
+            return true;
+        }
+        if(root.val==x || root.val==y){
+            return true;
+        }
+        if((root.left!=null && root.right!=null) && (root.left.val==x && root.right.val==y ||root.left.val==y && root.right.val==x )){
+            return false;
+        }
+        return check(root.left,x,y) && check(root.right,x,y);
+
+    }
+    
+     int depth(TreeNode node,int nodeval,int num){
+        if(node==null){
+            return 0;
+        }
+        if(node.val==nodeval){
+            return num;
+        }
+        int ans1=depth(node.left,nodeval,num+1);
+        int ans2=depth(node.right,nodeval,num+1);
+        
+        return ans1>=ans2?ans1:ans2;
+
+    }
+    }
