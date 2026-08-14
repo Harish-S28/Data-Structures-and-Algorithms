@@ -1,0 +1,42 @@
+1. Problem Statement
+Given an integer array nums, sort the array in ascending order and return it.
+
+
+2. Counting Sort is excellent when the range of values is small compared to the number of elements.
+
+
+3. Intuition :
+Don't compare the numbers with each other. Just count how many times each number occurs.
+
+4. Logic :
+First, I find the minimum and maximum values in the array, because I need to know the range of values. Then I create a frequency array of size max - min + 1.
+Since the array can contain negative numbers, I use num - min as the index, which shifts all values to non-negative indexes.
+Then I traverse the input array and store the frequency of each number in the frequency array.
+Finally, I traverse the frequency array from left to right. For every frequency, I put the corresponding value back into the original array the required number of times. 
+This automatically gives me the array in sorted order.
+The time complexity is O(n + k), where n is the number of elements and k is the range of values. The space complexity is O(k) for the frequency array.
+
+Code:
+
+class Solution {
+    public int[] sortArray(int[] nums) {
+        int max=Integer.MIN_VALUE;
+        int min=Integer.MAX_VALUE;
+        for(int num:nums){
+            min=Math.min(min,num);
+            max=Math.max(num,max);
+        }
+        int[] arr=new int[max-min+1];
+        for(int num:nums){
+            arr[num-min]++;
+        }
+        int index=0;
+        for(int i=0;i<arr.length;i++){
+            while(arr[i]>0){
+                nums[index++]=i+min;
+                arr[i]--;
+            }
+        }
+        return nums;
+    }
+}
