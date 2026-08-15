@@ -1,0 +1,27 @@
+Leetcode - 105
+
+Logic :
+find the root node in inorder with the preorder[start]
+keep that root node index "i" (inorder array)
+create root node for that
+pass the recursive call for left and right
+for left call , pass the parameter , for inorder -> s till i-1 . for preorder -> sp+1 till sp+(i-si) size of left array of root node in inorder array
+for right call, for inorder -> i+1 till e . for preorder -> sp+(i-si)+1 (rootnode +size of left array+1) till ep (end of array)
+
+for inorder pointer , if s greater than e pointer
+return null
+
+In the end return the root
+
+Code:
+
+TreeNode build(int[] preorder,int[] inorder,int sp,int ep,int is,int ie,HashMap<Integer,Integer> map){
+        if(is>ie){
+            return null;
+        }
+        int i=map.get(preorder[sp]);
+        TreeNode node=new TreeNode(preorder[sp]);
+        node.left=build(preorder,inorder,sp+1,sp-is+i,is,i-1,map);
+        node.right=build(preorder,inorder,sp-is+i+1,ep,i+1,ie,map);
+        return node;
+  }
