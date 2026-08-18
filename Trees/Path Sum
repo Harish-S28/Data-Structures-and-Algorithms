@@ -1,0 +1,59 @@
+This is LeetCode 112 — Path Sum. Your solution uses DFS + Recursion.
+
+1. Problem Description
+
+You are given the root of a binary tree and an integer targetSum.
+
+You need to determine whether there exists a root-to-leaf path such that the sum of all node values along that path is exactly equal to targetSum.
+
+A leaf node is a node that has:
+
+left == null
+right == null
+Example
+        5
+       / \
+      4   8
+     /   / \
+    11  13  4
+   /  \       \
+  7    2       1
+
+If:
+
+targetSum = 22
+
+There is a path:
+
+5 → 4 → 11 → 2
+
+Sum:
+
+5 + 4 + 11 + 2 = 22
+
+So the answer is:
+
+true
+
+
+Logic :
+
+I used DFS with recursion. I maintain the remaining target sum while traversing from the root toward the leaf. At each node, I subtract the current node's value from the target sum. 
+When I reach a leaf node, I check whether the remaining target sum is zero. If it is zero, we found a valid root-to-leaf path.
+Otherwise, I recursively search both the left and right subtrees, and return true if either subtree contains a valid path
+
+
+Code:
+
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root==null){
+            return false;
+        }
+        targetSum-=root.val;
+        if(root.left==null && root.right==null){
+            return targetSum==0;
+        }
+        return hasPathSum(root.left,targetSum) || hasPathSum(root.right,targetSum);
+    }
+}
