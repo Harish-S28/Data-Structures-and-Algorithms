@@ -1,0 +1,61 @@
+This is LeetCode 129 — Sum Root to Leaf Numbers.
+
+Your solution uses DFS + Recursion, and the key idea is to build the number while traversing from root to leaf.
+
+1. Problem Description
+
+You are given a binary tree where each node contains a digit from 0 to 9.
+
+Each root-to-leaf path represents a number.
+
+You need to return the sum of all the numbers formed by the root-to-leaf paths.
+
+Example
+        1
+       / \
+      2   3
+
+There are two root-to-leaf paths:
+
+1 → 2  → 12
+1 → 3  → 13
+
+Therefore:
+
+12 + 13 = 25
+
+Output:
+
+25
+
+
+
+Intuition
+
+As I travel from root to leaf, I continuously build the number represented by the current path. When I reach a leaf, I return that complete number. Then I add the results from the left and right subtrees.
+
+
+Logic :
+
+I used DFS with recursion. I maintain a variable called sum that represents the number formed by the current root-to-node path. 
+At every node, I append the current digit using sum * 10 + node.val. When I reach a leaf node, the complete root-to-leaf number is formed, so I return that number. 
+For non-leaf nodes, I recursively traverse both the left and right subtrees and add their results. Finally, the recursion returns the sum of all root-to-leaf numbers.
+
+
+Code :
+
+class Solution {
+    public int sumNumbers(TreeNode root) {
+       return sumnumber(root,0);
+    }
+    int sumnumber(TreeNode node,int sum){
+        if(node==null){
+            return 0;
+        }
+         if(node.left==null && node.right==null){
+            sum=sum*10+node.val;
+            return sum;
+         }
+        return  sumnumber(node.left,sum*10+node.val)+sumnumber(node.right,sum*10+node.val);
+    }
+}
