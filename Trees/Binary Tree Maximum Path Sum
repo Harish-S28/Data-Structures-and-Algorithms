@@ -1,0 +1,121 @@
+This is LeetCode 124 — Binary Tree Maximum Path Sum.
+
+Your Java solution uses DFS + Recursion + a global maximum variable.
+
+1. Problem Statement
+
+You are given the root of a binary tree.
+
+Find the maximum path sum.
+
+A path:
+
+Can start at any node
+Can end at any node
+Must follow connected parent-child nodes
+Must contain at least one node
+Does not have to pass through the root
+Example
+        -10
+        /  \
+       9    20
+           /  \
+          15   7
+
+The maximum path is:
+
+15 → 20 → 7
+
+Its sum is:
+
+15 + 20 + 7 = 42
+
+So:
+
+Answer = 42
+2. Logic of Your Code
+
+Your code does two things at every node:
+
+Step 1: Find the best contribution from the left subtree
+int left = Math.max(maxpath(root.left), 0);
+
+We recursively find the best path coming from the left.
+
+If it is negative, we ignore it by taking 0.
+
+For example:
+
+left contribution = -5
+
+We use:
+
+max(-5, 0) = 0
+
+Because adding -5 would only make our path worse.
+
+Step 2: Find the best contribution from the right subtree
+int right = Math.max(maxpath(root.right), 0);
+
+Same idea.
+
+A negative contribution is discarded.
+
+Step 3: Create a complete path through the current node
+gmax = Math.max(left + right + root.val, gmax);
+
+This is the most important line.
+
+At the current node, we can form:
+
+left → root → right
+
+So the path sum is:
+
+left + root.val + right
+
+We compare this with the previous maximum and update gmax.
+
+Step 4: Return a path to the parent
+return root.val + Math.max(left, right);
+
+This is different from the previous calculation.
+
+When returning to the parent, we cannot return both left and right.
+
+Why?
+
+Because a path going upward must remain a single path.
+
+So we choose the better side:
+
+root + max(left, right)
+
+
+Logic :
+
+I use DFS with recursion. For every node, I calculate the maximum contribution from its left and right subtrees. If either contribution is negative, I ignore it by taking the maximum with zero.
+Then I calculate left + root.val + right, which represents a complete path passing through the current node, and use that to update the global maximum.
+For the value returned to the parent, I can only choose one subtree because a path cannot branch. Therefore, I return root.val + max(left, right).
+By doing this for every node, gmax stores the maximum path sum found anywhere in the tree
+
+
+
+Code :
+
+class Solution {
+    int gmax=Integer.MIN_VALUE;
+     public int maxPathSum(TreeNode root) {
+        maxpath(root);
+       return gmax;
+     }
+     int maxpath(TreeNode root){
+          if(root==null){
+            return 0;
+        }
+        int left=Math.max(maxpath(root.left),0);
+        int right=Math.max(maxpath(root.right),0);
+        gmax=Math.max(left+right+root.val,gmax);
+        return root.val+Math.max(left,right);
+     }
+}
