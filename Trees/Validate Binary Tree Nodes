@@ -1,0 +1,97 @@
+1. Problem Statement — LeetCode 1361
+
+You are given:
+
+n nodes numbered from 0 to n - 1
+leftChild[i] → left child of node i
+rightChild[i] → right child of node i
+
+If the value is -1, that child does not exist.
+
+We need to determine whether all these nodes together form one valid binary tree.
+
+For a valid binary tree:
+
+Every node can have at most one parent
+There must be exactly one root
+All nodes must be connected
+
+
+
+2. Intuition
+
+Think about building a family tree.
+
+Every person:
+
+can have only one parent in this representation
+there should be only one starting person → root
+everyone must belong to the same family tree
+
+So your solution checks:
+
+Does anyone have 2 parents?
+        ↓
+       No
+
+Is there exactly 1 person with no parent?
+        ↓
+       Yes
+
+Starting from that person,
+can I reach everyone?
+        ↓
+       Yes
+
+Therefore → Valid Binary Tree
+
+
+
+3.Logic :
+
+I solve this problem using indegree and DFS. First, I create an indegree array to track how many parents each node has. While processing the left and right child arrays, I increment the indegree of every child.
+Then I validate that no node has an indegree greater than one, because in a valid binary tree every node can have at most one parent.
+Next, I find the root. The root is the only node whose indegree is zero. If I find more than one such node, it means the nodes form multiple disconnected trees, so I return false.
+After finding the single root, I perform DFS starting from it and count how many nodes I can visit. If the count equals n, it means all nodes are connected and form one valid binary tree. Otherwise, some nodes are disconnected, so I return false
+
+
+
+
+Code:
+
+class Solution {
+    public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+        int[] indegree = new int[n];
+        for(int i=0;i<n;i++){
+            if(leftChild[i]!=-1){
+                indegree[leftChild[i]]++;
+            }
+            if(rightChild[i]!=-1){
+                indegree[rightChild[i]]++;
+            }
+        }
+        int root=-1;
+        for(int i=0;i<n;i++){
+            if(indegree[i]==0){
+                if(root!=-1){
+                    return false;
+                }
+                root=i;
+            }
+            int num=indegree[i];
+            if(num>1){
+                return false;
+            }
+        }
+        boolean[] visited=new boolean[n];
+        int count=dfs(root,visited,leftChild,rightChild);
+        return count==n;
+    }
+    int dfs(int root,boolean[] visited,int[] leftChild,int[] rightChild){
+        if(root==-1 || visited[root]){
+            return 0;
+        }
+        visited[root]=true;
+        return 1+dfs(leftChild[root],visited,leftChild,rightChild)+dfs(rightChild[root],visited,leftChild,rightChild);
+    }
+}
