@@ -1,0 +1,104 @@
+LeetCode 687 — Longest Univalue Path
+1. Problem Statement
+
+You are given the root of a binary tree.
+
+You need to find the length of the longest path where every node in the path has the same value.
+
+The path can start and end at any node.
+It does not have to pass through the root.
+The answer is measured in number of edges, not number of nodes.
+
+Example:
+
+        5
+       / \
+      4   5
+     / \   \
+    1   1   5
+
+The longest same-value path is:
+
+5 → 5 → 5
+
+Number of edges:
+
+2
+2. Intuition
+
+At every node, we ask:
+
+How far can I extend a same-value path through my left child? How far can I extend it through my right child?
+
+For example:
+
+        4
+       / \
+      4   4
+     /     \
+    4       4
+
+At the root:
+
+Left side can contribute some same-value edges.
+Right side can contribute some same-value edges.
+
+So the longest path passing through the current node is:
+
+leftPath + rightPath
+
+We update:
+
+gmax = Math.max(gmax, leftPath + rightPath);
+
+But when returning to the parent, we cannot return both sides.
+
+Why?
+
+Because this:
+
+left → root → right
+
+is already a complete path. We cannot extend both branches upward.
+
+So we return only:
+
+Math.max(leftPath, rightPath)
+
+
+
+Logic :
+
+I solve this problem using DFS and recursion. For every node, I recursively calculate the longest univalue path that can be extended from its left and right subtrees.
+Then I check whether the current node has the same value as its left child. If they are equal, I extend the left path by one edge. Otherwise, the left contribution becomes zero. I do the same for the right child.
+At each node, both valid left and right paths can be combined to form a path passing through the current node. Therefore, I update a global maximum using leftPath + rightPath.
+However, when returning the result to the parent, I can only return one side because a path extending upward cannot branch in two directions. So I return the maximum of the left and right paths.
+
+
+Code :
+
+class Solution {
+    int gmax=0;
+    public int longestUnivaluePath(TreeNode root) {
+        longestUnivaluePath1(root);
+        return gmax;
+    }
+    public int longestUnivaluePath1(TreeNode root){
+        if(root==null){
+            return 0;
+        }
+        int left=longestUnivaluePath1(root.left);
+        int right=longestUnivaluePath1(root.right);
+        int leftpath=0;
+        int rightpath=0;
+        if(root.left!=null && root.val==root.left.val){
+            leftpath=left+1;
+        }
+        if(root.right!=null && root.val==root.right.val){
+            rightpath=right+1;
+            
+        }
+        gmax=Math.max(gmax,leftpath+rightpath);
+        return Math.max(leftpath,rightpath);
+    }
+}
