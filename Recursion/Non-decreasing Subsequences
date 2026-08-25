@@ -1,0 +1,214 @@
+Tree :
+
+subseq(index=0, temp=[])
+
+│
+├── choose 4 (i=0)
+│   │
+│   └── subseq(index=1, temp=[4])
+│       │
+│       ├── choose 6 (i=1)
+│       │   │
+│       │   └── subseq(index=2, temp=[4,6])  → ADD [4,6]
+│       │       │
+│       │       ├── choose 7 (i=2)
+│       │       │   │
+│       │       │   └── subseq(index=3, temp=[4,6,7])
+│       │       │       → ADD [4,6,7]
+│       │       │       │
+│       │       │       └── choose 7 (i=3)
+│       │       │           │
+│       │       │           └── subseq(index=4, temp=[4,6,7,7])
+│       │       │               → ADD [4,6,7,7]
+│       │       │               → loop ends
+│       │       │
+│       │       └── try 7 (i=3)
+│       │           ❌ SKIP
+│       │           because 7 already used at this level
+│       │
+│       ├── choose 7 (i=2)
+│       │   │
+│       │   └── subseq(index=3, temp=[4,7])
+│       │       → ADD [4,7]
+│       │       │
+│       │       └── choose 7 (i=3)
+│       │           │
+│       │           └── subseq(index=4, temp=[4,7,7])
+│       │               → ADD [4,7,7]
+│       │               → loop ends
+│       │
+│       └── try 7 (i=3)
+│           ❌ SKIP
+│           because 7 already used at this level
+│
+├── choose 6 (i=1)
+│   │
+│   └── subseq(index=2, temp=[6])
+│       │
+│       ├── choose 7 (i=2)
+│       │   │
+│       │   └── subseq(index=3, temp=[6,7])
+│       │       → ADD [6,7]
+│       │       │
+│       │       └── choose 7 (i=3)
+│       │           │
+│       │           └── subseq(index=4, temp=[6,7,7])
+│       │               → ADD [6,7,7]
+│       │               → loop ends
+│       │
+│       └── try 7 (i=3)
+│           ❌ SKIP
+│           because 7 already used at this level
+│
+├── choose 7 (i=2)
+│   │
+│   └── subseq(index=3, temp=[7])
+│       │
+│       └── choose 7 (i=3)
+│           │
+│           └── subseq(index=4, temp=[7,7])
+│               → ADD [7,7]
+│               → loop ends
+│
+└── try 7 (i=3)
+    ❌ SKIP
+    because 7 was already used
+    at the root recursion level
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                              []
+                    /          |          \
+                  4            6            7
+                  |            |            |
+                 [4]          [6]          [7]
+               /     \          |            |
+              6       7         7            7
+              |       |         |            |
+           [4,6]    [4,7]    [6,7]         [7,7]
+              |       |         |
+              7       7         7
+              |       |         |
+          [4,6,7] [4,7,7]  [6,7,7]
+              |
+              7
+              |
+        [4,6,7,7]
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+1. Problem Statement — LeetCode 491
+
+You are given an integer array nums.
+
+You need to find all unique non-decreasing subsequences of length at least 2.
+
+Non-decreasing means:
+
+The next element should be:
+
+greater than or equal to the previous element
+
+Example:
+
+nums = [4, 6, 7, 7]
+
+Some valid subsequences:
+
+[4, 6]
+[4, 7]
+[4, 6, 7]
+[4, 6, 7, 7]
+[6, 7]
+[7, 7]
+
+Invalid:
+
+[6, 4] ❌
+
+because:
+
+6 > 4
+
+Also, duplicate subsequences should not appear.
+
+2. Intuition
+
+For every position, we have a choice:
+
+Should I include this element in my current subsequence?
+
+Suppose:
+
+nums = [4, 6, 7]
+
+Start with:
+
+temp = []
+
+Choose 4:
+
+[4]
+
+Then choose 6:
+
+[4, 6]
+
+Since its size is at least 2, it is a valid answer:
+
+[4, 6] ✅
+
+Then continue:
+
+[4, 6, 7] ✅
+
+But we can also skip 6 and choose 7:
+
+[4, 7] ✅
+
+So we need to explore all possible combinations, while maintaining the original order.
+
+This naturally suggests:
+
+Backtracking / Recursion
+
+
+Logic:
+
+The problem asks us to find all unique non-decreasing subsequences with a length of at least two.
+Since we need to explore different combinations while maintaining the original order, I used a backtracking approach.
+At each recursion level, I try every element starting from the current index.
+Before adding an element, I check whether it maintains the non-decreasing order by comparing it with the last element of the current subsequence.
+Whenever the current subsequence has at least two elements, I add a copy of it to the result. After exploring one choice, I remove that element to backtrack and try other possibilities.
+To avoid duplicate subsequences, I use a HashSet at each recursion level so that the same value is not selected more than once at the same level
+
+Code:
+
+class Solution {
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        List<List<Integer>> ans=new ArrayList<>();
+        subseq(nums,0,new ArrayList<>(),ans);
+        return ans;
+    }
+    void subseq(int[] nums,int index,List<Integer> temp,List<List<Integer>> ans){
+        if(temp.size()>=2){
+            ans.add(new ArrayList<>(temp));
+        }
+        HashSet<Integer> set=new HashSet<>();
+        for(int i=index;i<nums.length;i++){
+            if(set.contains(nums[i])){
+                continue;
+            }
+            if(temp.isEmpty() || temp.get(temp.size()-1)<=nums[i]){
+                set.add(nums[i]);
+                temp.add(nums[i]);
+                subseq(nums,i+1,temp,ans);
+                temp.remove(temp.size()-1);
+            }
+        }
+    }
+}
