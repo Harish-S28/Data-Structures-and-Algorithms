@@ -1,0 +1,39 @@
+LeetCode 1053 – Previous Permutation With One Swap.
+
+Problem in simple words
+
+You are given an array:
+
+[3, 2, 1]
+
+You can make only one swap.
+
+Your goal is to get the largest possible array that is smaller than the original array.
+
+
+
+Intuition :
+
+1. Start from right
+2. Find first position where:
+   arr[i] > arr[i+1]
+3. Find the largest number smaller than arr[i]
+4. Handle duplicates
+5. Swap
+
+Code:
+
+class Solution(object):
+    def prevPermOpt1(self, arr):
+        i=len(arr)-2
+        while i>=0 and arr[i]<=arr[i+1]:
+            i-=1
+        if i==-1:
+            return arr
+        j=len(arr)-1
+        while arr[j]>=arr[i]:
+            j-=1
+        while j>=0 and arr[j]==arr[j-1]:
+            j-=1
+        arr[i],arr[j]=arr[j],arr[i]
+        return arr
